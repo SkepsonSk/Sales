@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS account (
+    id VARCHAR(50),
+    name VARCHAR(200),
+    PRIMARY KEY (ID)
+)
