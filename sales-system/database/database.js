@@ -11,7 +11,7 @@ const configure = (host, user, password, database) => {
     });
 }
 
-const runSQL = (sqlFile) => {
+const runSchema = (sqlFile) => {
     return new Promise( (resolve, reject) => {
         const fileName = `${__dirname}/schema/${sqlFile}`
 
@@ -20,24 +20,54 @@ const runSQL = (sqlFile) => {
                 reject(err);
             }
 
-            this.pool.getConnection( (err, conn) => {
-
-                if (!err) {
-                    conn.query(data, (err, res) => {
-                        if (!err) {
-                            resolve(res);
-                        }
-                        else {
-                            reject(err);
-                        }
-                    })
-
-                }
-                else {
-                    reject(err);
-                }
-            } );
+            runSQL(data)
+                .then( res => resolve(res) )
+                .catch( err => reject(err) );
         });
+    } );
+}
+
+const runSQL = (sql) => {
+    return new Promise( (resolve, reject) => {
+        this.pool.getConnection( (err, conn) => {
+
+            if (!err) {
+                conn.query(sql, (err, res) => {
+                    if (!err) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(err);
+                    }
+                })
+
+            }
+            else {
+                reject(err);
+            }
+        } );
+    } );
+}
+
+const runSQLWithParams = (sql, params) => {
+    return new Promise( (resolve, reject) => {
+        this.pool.getConnection( (err, conn) => {
+
+            if (!err) {
+                conn.query(sql, [params], (err, res) => {
+                    if (!err) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(err);
+                    }
+                })
+
+            }
+            else {
+                reject(err);
+            }
+        } );
     } );
 }
 
@@ -69,4 +99,6 @@ const describeObject = (objectName) => {
 
 exports.configure = configure;
 exports.runSQL = runSQL;
+exports.runSQLWithParams = runSQLWithParams;
+exports.runSchema = runSchema;
 exports.describeObject = describeObject;

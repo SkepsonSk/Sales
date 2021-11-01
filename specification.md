@@ -17,3 +17,13 @@ Non-functional requirements:
 - Keycloak as authorization server;
 - Linux as operating system (not specified what distro yet - probably Debian);
 - MariaDB as database system
+
+---
+
+##Object System:
+- Easy data retrieval/create/edit/delete;
+- Type independent (able to manipulate custom objects created by developers)
+
+###Current plans:
+#####Data Retrieval System (DRS):
+- Simple GET retrieve(), should be used to retrieve set of data filtered by value of certain fields
