@@ -14,8 +14,8 @@ export class ObjectComponentService {
     this.components.set(componentName, baseObject);
   }
 
-  getComponent(componentName: string): BaseObject {
-    return <BaseObject>this.components.get(componentName);
+  getComponent(componentName: string | null): BaseObject {
+    return <BaseObject>this.components.get(<string>componentName);
   }
 
 }

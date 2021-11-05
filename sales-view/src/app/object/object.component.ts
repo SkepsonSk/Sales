@@ -1,10 +1,9 @@
 import {Component, ComponentFactoryResolver, OnInit, ViewChild} from '@angular/core';
 import {ObjectService} from "../object.service";
 import {ObjectDirective} from "../object.directive";
-import {AccountComponent} from "../account/account.component";
-import {BaseObjectComponent} from "../base-object.component";
 import {ObjectComponentService} from "../object-component.service";
-import {BaseObject} from "../base-object";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {BaseObjectComponent} from "../base-object.component";
 
 @Component({
   selector: 'app-object',
@@ -19,16 +18,20 @@ export class ObjectComponent implements OnInit {
   constructor(
     private objectService: ObjectService,
     private objectComponentService: ObjectComponentService,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    //this.getObjects();
+    this.activatedRoute.paramMap.subscribe( (params: ParamMap) => {
 
-    const accountObj = this.objectComponentService.getComponent('account');
+      const objectName: string | null = params.get('objectName');
 
-    const accountComponentFactory = this.componentFactoryResolver.resolveComponentFactory(accountObj.component);
-    this.objectManagement.viewContainerRef.createComponent<BaseObjectComponent>(accountComponentFactory);
+      const accountObj = this.objectComponentService.getComponent(objectName);
+
+      const accountComponentFactory = this.componentFactoryResolver.resolveComponentFactory(accountObj.component);
+      this.objectManagement.viewContainerRef.createComponent<BaseObjectComponent>(accountComponentFactory);
+    } );
   }
 
   getObjects(): void {
