@@ -4,10 +4,18 @@ const router = express.Router();
 const objectService = require('./../service/object/objectService');
 
 router.get('/:objectName', (req, res) => {
-    const filters = req.query.filters != null ? req.query.filters : null;
     const objectName = req.params.objectName;
 
-    objectService.retrieve(objectName, filters)
+    objectService.list(objectName)
+        .then( data => res.json(data) )
+        .catch( err => res.status(500).json(err) );
+});
+
+router.get('/:objectName/:objectId', (req, res) => {
+    const objectName = req.params.objectName;
+    const objectId = req.params.objectId;
+
+    objectService.retrieve(objectName, objectId)
         .then( data => res.json(data) )
         .catch( err => res.status(500).json(err) );
 });

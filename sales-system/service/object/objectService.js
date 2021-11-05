@@ -1,33 +1,47 @@
 const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
-const mysql = require('mysql');
-
-const retrieve = (objectName, filters) => {
+const list = (objectName) => {
     let sql = `SELECT * FROM ${objectName}`;
-
-    if (filters) {
-        sql += ` WHERE ${filters}`
-    }
 
     return new Promise( (resolve, reject) => {
         database.runSQL(sql)
             .then( res => resolve(res) )
             .catch( err => reject(err) );
-    } )
+    } );
+}
+
+const retrieve = (objectName, id) => {
+    let sql = `SELECT * FROM ${objectName} WHERE Id='${id}'`;
+
+    return new Promise( (resolve, reject) => {
+        database.runSQL(sql)
+            .then( res =>  resolve(res[0]))
+            .catch( err => reject(err) );
+    } );
 }
 
 const create = (objectName, data) => {
-    data.id = idGenerationService.generateID(objectName);
+    return new Promise( (resolve, reject) => {
+        idGenerationService.generateID(objectName)
+            .then( id => {
 
-    const keys = Object.keys(data);
+                data.id = id;
 
-    const values = Object.values(data);
-    const fields = keys.join(',');
+                const keys = Object.keys(data);
 
-    let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
+                const values = Object.values(data);
+                const fields = keys.join(',');
 
-    return database.runSQLWithParams(sql, values);
+                let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
+
+                database.runSQLWithParams(sql, values)
+                    .then( res => resolve(res) )
+                    .catch( err => reject(err));
+
+            } )
+            .catch( err => reject(err) );
+    } );
 }
 
 const update = (objectName, id, data) => {
@@ -43,6 +57,7 @@ const remove = (objectName, id) => {
     return database.runSQL(sql);
 }
 
+exports.list = list;
 exports.retrieve = retrieve;
 exports.create = create;
 exports.update = update;
