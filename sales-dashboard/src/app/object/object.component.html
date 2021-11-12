@@ -4,8 +4,8 @@
     <h1 class="text-2xl" *ngIf="object !== undefined"> {{ object.name }} </h1>
 
     <div class="flex ml-auto">
-      <p class="cursor-pointer ml-3" (click)="sendEditObjectRequest(objectName, object)"> Edit </p>
-      <p class="cursor-pointer ml-3" (click)="sendDeleteObjectRequest(objectName, object.Id)"> Delete </p>
+      <p class="cursor-pointer ml-3" (click)="sendEditObjectRequest(objectName, objectId)"> Edit </p>
+      <p class="cursor-pointer ml-3" (click)="sendDeleteObjectRequest(objectName, objectId)"> Delete </p>
     </div>
   </div>
 

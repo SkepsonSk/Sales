@@ -31,6 +31,7 @@ export class RelationsComponent implements OnInit {
       this.relationName,
       this.objectId)
       .subscribe( relation => {
+
         this.relationTitle = relation.title;
         this.relationRecords = relation.results;
         this.relationFields = relation.fields;
@@ -40,18 +41,18 @@ export class RelationsComponent implements OnInit {
     } );
   }
 
-  fireClickEvent(clickType: string): void {
-    const clickBody = { type: clickType, objectName: this.relationObjectName };
-    this.clicked.emit(clickBody);
-  }
-
   fireClickNewEvent(): void {
     const clickBody = { type: 'new', objectName: this.relationObjectName, relatedField: this.relatedField};
     this.clicked.emit(clickBody);
   }
 
   fireClickEditEvent(object: any): void {
-    const clickBody = { type: 'edit', objectName: this.relationObjectName, object: object};
+    const clickBody = { type: 'edit', objectName: this.relationObjectName, objectId: object.Id};
+    this.clicked.emit(clickBody);
+  }
+
+  fireClickDeleteEvent(object: any): void {
+    const clickBody = { type: 'delete', objectName: this.relationObjectName, objectId: object.Id};
     this.clicked.emit(clickBody);
   }
 }

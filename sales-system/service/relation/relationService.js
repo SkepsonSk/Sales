@@ -34,7 +34,7 @@ const retrieveRelationObjects = (objectName, relationName, objectId) => {
                     const relatedObject = relation.objectName;
                     const targetField = relation.field;
 
-                    const sql = `SELECT ${fields} FROM ${relatedObject} WHERE ${targetField}='${objectId}'`;
+                    const sql = `SELECT Id,${fields} FROM ${relatedObject} WHERE ${targetField}='${objectId}'`;
                     database.runSQL(sql)
                         .then( results => {
 

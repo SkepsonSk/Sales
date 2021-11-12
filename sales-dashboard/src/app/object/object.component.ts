@@ -89,8 +89,9 @@ export class ObjectComponent implements OnInit {
         message: 'Are you sure you want to delete this object?',
         actions: {
           'Delete': ( prompt: any ) => {
-            this.objectService.deleteObject(<string>objectName, objectId);
-            this.modalService.closeModal();
+            this.objectService.deleteObject(<string>objectName, objectId).subscribe( result => {
+              this.modalService.closeModal();
+            } );
           },
           'Cancel': ( prompt: any ) => {
             this.modalService.closeModal();
@@ -100,21 +101,21 @@ export class ObjectComponent implements OnInit {
     });
   }
 
-  sendEditObjectRequestForRelated(objectName: string, object: any) {
+  sendEditObjectRequest(objectName: string, objectId: any) {
     this.modalService.openModal('object-creator', {},
       instance => {
         instance.mode = 'edit';
         instance.objectName = objectName;
-        instance.object = object;
+        instance.objectId = objectId
       });
   }
 
-  sendEditObjectRequest(objectName: string, object: any) {
+  sendEditObjectRequestForRelated(objectName: string, objectId: string) {
     this.modalService.openModal('object-creator', {},
       instance => {
         instance.mode = 'edit';
         instance.objectName = objectName;
-        instance.object = object;
+        instance.objectId = objectId;
       });
   }
 
@@ -128,9 +129,13 @@ export class ObjectComponent implements OnInit {
     }
     else if (clickType == 'edit') {
       const objectName = body.objectName;
-      const object = body.object;
-      alert(JSON.stringify(object));
-      this.sendEditObjectRequestForRelated(objectName, object);
+      const objectId = body.objectId;
+      this.sendEditObjectRequestForRelated(objectName, objectId);
+    }
+    else if (clickType == 'delete') {
+      const objectName = body.objectName;
+      const objectId = body.objectId;
+      this.sendDeleteObjectRequest(objectName, objectId);
     }
   }
 

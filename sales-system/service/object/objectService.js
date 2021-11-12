@@ -49,11 +49,15 @@ const create = (objectName, data) => {
 }
 
 const update = (objectName, id, data) => {
+    objectName = objectName.toLowerCase();
+
     let sql = `UPDATE ${objectName} SET ? WHERE id='${id}'`;
     return database.runSQLWithParams(sql, data);
 }
 
 const remove = (objectName, id) => {
+    objectName = objectName.toLowerCase();
+
     const sql = `DELETE FROM ${objectName} WHERE id='${id}'`
     return database.runSQL(sql);
 }

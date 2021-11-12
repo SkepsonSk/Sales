@@ -7,19 +7,26 @@
 
   <div class="flex flex-col w-full">
 
-    <div class="flex mt-2">
-      <p *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> {{ fieldName }} </p>
+    <div *ngIf="relationRecords.length > 0">
+
+      <div class="flex mt-2">
+        <p *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> {{ fieldName }} </p>
+      </div>
+
+      <div *ngFor="let relationRecord of relationRecords; index as i"
+           [ngClass]="{ 'bg-gray-200' : i%2 == 0 }"
+           class="flex w-full relative p-1" >
+        <div *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> <p>{{ relationRecord[fieldName] }} </p> </div>
+
+        <div class="flex absolute right-0 mr-1">
+          <p class="mr-1 cursor-pointer" (click)="fireClickEditEvent(relationRecord)"> Edit </p>
+          <p class="cursor-pointer" (click)="fireClickDeleteEvent(relationRecord)"> Delete </p>
+        </div>
+      </div>
     </div>
 
-    <div *ngFor="let relationRecord of relationRecords; index as i"
-         [ngClass]="{ 'bg-gray-200' : i%2 == 0 }"
-         class="flex w-full relative p-1" >
-      <div *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> <p>{{ relationRecord[fieldName] }} </p> </div>
-
-      <div class="flex absolute right-0 mr-1">
-        <p class="mr-1 cursor-pointer" (click)="fireClickEditEvent(relationRecord)"> Edit </p>
-        <p class="cursor-pointer" (click)="fireClickEvent('delete')"> Delete </p>
-      </div>
+    <div *ngIf="relationRecords.length < 1">
+      <p> No related records </p>
     </div>
 
   </div>
