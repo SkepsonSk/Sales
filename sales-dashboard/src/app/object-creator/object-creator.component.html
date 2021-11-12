@@ -1,0 +1,22 @@
+<div class="w-1/2 bg-white ml-auto mr-auto mt-10 p-2 rounded">
+
+  <h3 *ngIf="mode === 'create'" class="text-xl"> New {{ objectTitle }} </h3>
+  <h3 *ngIf="mode === 'edit'" class="text-xl"> Edit {{ objectTitle }} </h3>
+
+  <div class="flex flex-col flex-wrap w-full mt-2">
+
+    <div *ngFor="let field of fields; index as i" class="w-1/2">
+      <label class="block" [for]="field"> {{ field }} </label>
+
+      <input class="block border"
+             [id]="field" type="text"
+             [value]="values[field]"
+             (change)="values[field] = $any($event.target).value">
+    </div>
+
+    <p *ngIf="mode === 'create'" class="mt-5 cursor-pointer" (click)="createObject()"> Create </p>
+    <p *ngIf="mode === 'edit'" class="mt-5 cursor-pointer" (click)="editObject()"> Edit </p>
+
+  </div>
+
+</div>

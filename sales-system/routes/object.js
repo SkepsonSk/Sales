@@ -49,4 +49,10 @@ router.delete('/:objectName/:objectId', (req, res) => {
         .catch( err => res.status(400).json({ok: false, error: err}));
 });
 
+router.get('/', (req, res) => {
+    objectService.retrieveObjectNames()
+        .then( objectNames => res.json(objectNames) )
+        .catch(err => res.status(500).json({ok: false, error: err}));
+})
+
 module.exports = router;

@@ -1,3 +1,17 @@
 <app-topbar></app-topbar>
 
 <router-outlet></router-outlet>
+
+<div class="w-full h-full absolute top-0 bg-black-opacity"
+     *ngIf="modalVisible">
+
+  <p class="absolute top-0 right-0 m-2 text-2xl text-white cursor-pointer"
+     (click)="closeModal()">
+    X
+  </p>
+
+  <app-object-modal [modalComponentName]="modalComponentName"
+                    [data]="modalData"
+                    [componentInstantiateCallback]="componentInstantiateCallback">
+  </app-object-modal>
+</div>

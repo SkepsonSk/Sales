@@ -33,6 +33,8 @@ const runSQL = (sql) => {
 
             if (!err) {
                 conn.query(sql, (err, res) => {
+                    conn.release();
+
                     if (!err) {
                         resolve(res);
                     }
@@ -55,6 +57,8 @@ const runSQLWithParams = (sql, params) => {
 
             if (!err) {
                 conn.query(sql, [params], (err, res) => {
+                    conn.release();
+
                     if (!err) {
                         resolve(res);
                     }
@@ -79,6 +83,7 @@ const describeObject = (objectName) => {
             if (!err) {
 
                 conn.query(sql, (err, res) => {
+                    conn.release();
 
                     if (!err) {
                         resolve(res);

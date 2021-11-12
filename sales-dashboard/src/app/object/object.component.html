@@ -1,3 +1,43 @@
-<p>object works!</p>
+<div class="ml-3 mr-3 mt-5">
 
-<ng-template objectManagement></ng-template>
+  <div class="flex items-center">
+    <h1 class="text-2xl" *ngIf="object !== undefined"> {{ object.name }} </h1>
+
+    <div class="flex ml-auto">
+      <p class="cursor-pointer ml-3" (click)="sendEditObjectRequest(objectName, object)"> Edit </p>
+      <p class="cursor-pointer ml-3" (click)="sendDeleteObjectRequest(objectName, object.Id)"> Delete </p>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <ng-template objectManagement></ng-template>
+  </div>
+
+  <div class="mt-5 p-2 shadow-md w-2/3">
+
+    <h3 class="text-xl"> General </h3>
+
+    <div class="flex flex-wrap">
+      <div *ngFor="let objectField of objectFields" class="mt-2 w-1/2">
+        <p> {{objectField}} </p>
+        <p> {{ object[objectField] }} </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-5">
+
+    <h3 class="text-xl"> Related </h3>
+
+    <div *ngFor="let relationName of relations">
+      <app-relations [relationName]="relationName"
+                     [objectName]="objectName"
+                     [objectId]="objectId"
+                     (clicked)="handleRelationClicked($event)">
+      </app-relations>
+    </div>
+
+  </div>
+
+</div>

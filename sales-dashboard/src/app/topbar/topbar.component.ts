@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ObjectService} from "../object.service";
 
 @Component({
   selector: 'app-topbar',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor() { }
+  objectNames: any;
+
+  constructor(
+    private objectService: ObjectService
+  ) {}
 
   ngOnInit(): void {
+    this.loadObjectNames();
+  }
+
+  loadObjectNames() : void {
+    this.objectService.retrieveObjectNames().subscribe( objectNames => {
+      this.objectNames = objectNames;
+    } );
+  }
+
+  firstCharUpper(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
 }

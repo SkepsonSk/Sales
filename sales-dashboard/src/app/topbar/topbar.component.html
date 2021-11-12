@@ -1,16 +1,20 @@
-<div class="shadow-md w-full p-1">
+<div class="shadow-md w-full pl-3 pt-2 pr-3">
 
   <div class="flex items-center">
     <h1 class="text-2xl"> Sales </h1>
 
-    <p class="ml-auto"> Login </p>
+    <p class="ml-auto"> Logged User </p>
 
   </div>
 
-
   <div class="flex mt-2">
-    <!-- TODO Dynamic object menu retrieved from server -->
-    <p class="cursor-pointer"> Home </p>
+    <a class="cursor-pointer" [routerLink]="'/'"> Home </a>
+
+    <a class="cursor-pointer ml-5"
+       *ngFor="let objectName of objectNames"
+       [routerLink]="['/object', objectName]">
+      {{ firstCharUpper(objectName) }}
+    </a>
   </div>
 
 </div>

@@ -1,0 +1,23 @@
+{
+  "objects": {
+
+    "account": {
+      "code": 0,
+      "relations": {
+
+        "contacts": {
+          "objectName": "Contact",
+          "title": "Contacts",
+          "field": "account",
+          "fields": ["name", "type"]
+        }
+
+      }
+    },
+
+    "contact": {
+      "code": 1
+    }
+
+  }
+}

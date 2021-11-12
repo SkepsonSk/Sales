@@ -1,0 +1,17 @@
+<div class="ml-3 mr-3 mt-5">
+
+  <div class="flex items-center">
+    <h1 class="text-2xl"> {{ objectTitle }} </h1>
+
+    <div class="ml-auto">
+      <p class="cursor-pointer" (click)="sendCreateObjectRequest(objectName)"> New </p>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <p *ngFor="let obj of objects; index as i" [ngClass]="{ 'bg-gray-200' : i%2 == 0, 'p-1' : true}">
+      <a [routerLink]="['/object', objectName, obj.id]"> {{obj.name}} </a>
+    </p>
+  </div>
+
+</div>

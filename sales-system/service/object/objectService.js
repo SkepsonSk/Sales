@@ -1,6 +1,8 @@
 const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
+const metadata = require('./../../metadata/metadata');
+
 const list = (objectName) => {
     let sql = `SELECT * FROM ${objectName}`;
 
@@ -22,6 +24,8 @@ const retrieve = (objectName, id) => {
 }
 
 const create = (objectName, data) => {
+    objectName = objectName.toLowerCase();
+
     return new Promise( (resolve, reject) => {
         idGenerationService.generateID(objectName)
             .then( id => {
@@ -45,10 +49,7 @@ const create = (objectName, data) => {
 }
 
 const update = (objectName, id, data) => {
-    const keys = Object.keys(data);
-
     let sql = `UPDATE ${objectName} SET ? WHERE id='${id}'`;
-
     return database.runSQLWithParams(sql, data);
 }
 
@@ -57,8 +58,19 @@ const remove = (objectName, id) => {
     return database.runSQL(sql);
 }
 
+const retrieveObjectNames = () => {
+    return new Promise( (resolve, reject) => {
+        metadata.read('objects.json')
+            .then( objects =>
+                resolve(Object.keys(objects.objects))
+             )
+            .catch( err => reject({ok: false, err: err}));
+    } );
+}
+
 exports.list = list;
 exports.retrieve = retrieve;
 exports.create = create;
 exports.update = update;
 exports.remove = remove;
+exports.retrieveObjectNames = retrieveObjectNames;
