@@ -1,0 +1,18 @@
+{
+  "view": {
+    "fields": [
+      "name",
+      "firstName",
+      "lastName",
+      "company"
+    ]
+  },
+  "edit": {
+    "fields": [
+      "name",
+      "firstName",
+      "lastName",
+      "company"
+    ]
+  }
+}

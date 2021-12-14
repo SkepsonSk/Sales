@@ -15,6 +15,9 @@ import { ObjectCreatorComponent } from './object-creator/object-creator.componen
 import {ModalComponentDirective} from "./directives/modal-component.directive";
 import { PromptComponent } from './prompt/prompt.component';
 import { RelationsComponent } from './relations/relations.component';
+import { LoginComponent } from './login/login.component';
+import {CanActivateLoginUser} from "./guard/CanActivateLoginUser";
+import { ClientComponent } from './components/client/client/client.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { RelationsComponent } from './relations/relations.component';
     ObjectModalComponent,
     ObjectCreatorComponent,
     PromptComponent,
-    RelationsComponent
+    RelationsComponent,
+    LoginComponent,
+    ClientComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,8 @@ import { RelationsComponent } from './relations/relations.component';
     HttpClientModule,
   ],
   providers: [
-    ObjectComponentService
+    ObjectComponentService,
+    CanActivateLoginUser
   ],
   bootstrap: [AppComponent]
 })

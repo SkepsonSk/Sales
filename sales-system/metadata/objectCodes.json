@@ -2,6 +2,9 @@
   "lastCode": 1,
   "objectCodes": {
     "account": 0,
-    "contact": 1
+    "contact": 1,
+    "client": 2,
+    "opportunity": 3,
+    "quote": 4
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../environments/environment";
+import {AuthService} from "./service/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,18 @@ import {environment} from "../environments/environment";
 export class ObjectService {
 
   constructor(
+    private authService: AuthService,
     private http: HttpClient
   ) {}
 
   listObjects(objectName: string): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.get(`${apiUrl}/object/${objectName}`);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.get(`${apiUrl}/object/${objectName}`, header);
   }
 
   retrieveObject(objectName: string, objectId: string): Observable<any> {

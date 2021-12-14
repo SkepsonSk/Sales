@@ -21,7 +21,10 @@ const runSchema = (sqlFile) => {
             }
 
             runSQL(data)
-                .then( res => resolve(res) )
+                .then( res => {
+                    console.log(`[DATABASE SYSTEM] Loaded schema ${sqlFile}`);
+                    resolve(res);
+                }  )
                 .catch( err => reject(err) );
         });
     } );

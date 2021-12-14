@@ -11,8 +11,11 @@ export class RelationsComponent implements OnInit {
   @Input() objectName: string = '';
   @Input() relationName: string = '';
   @Input() objectId: string = '';
+  @Input() state: string = '';
 
   @Output() clicked = new EventEmitter<any>();
+
+  initialized = false;
 
   relationTitle: string = '';
   relationRecords: any;
@@ -26,6 +29,16 @@ export class RelationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  ngOnChanges() {
+    if (this.initialized) {
+      this.loadData();
+    }
+  }
+
+  loadData() {
     this.relationService.retrieveObjects(
       this.objectName,
       this.relationName,
@@ -38,7 +51,9 @@ export class RelationsComponent implements OnInit {
         this.relationObjectName = relation.objectName;
         this.relatedField = relation.relatedField;
         this.fieldWidth = 100/relation.fields.length;
-    } );
+
+        this.initialized = true;
+      } );
   }
 
   fireClickNewEvent(): void {

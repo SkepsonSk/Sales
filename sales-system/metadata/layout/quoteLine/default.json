@@ -1,0 +1,17 @@
+{
+  "view": {
+    "fields": [
+      "name",
+      "price",
+      "quantity"
+    ]
+  },
+  "edit": {
+    "fields": [
+      "name",
+      "price",
+      "quantity",
+      "quote"
+    ]
+  }
+}

@@ -15,7 +15,6 @@ let _keycloak;
 
 const autoConfigure = () => {
     const keycloakFile = `${__dirname}/../keycloak.json`;
-    console.log(keycloakFile);
 
     fs.readFile(keycloakFile, 'utf8', (err, data) => {
 
@@ -75,14 +74,15 @@ const authorize = () => {
     }
 }
 
-const authenticate = (permissions) => {
-    return (req, res, next) => {
-        if (!_configured){
-            res.status(500).json({error: 'Authorization service not configured.'});
+const permissions = (permissions, authorizationHeader) => {
+    return new Promise( (resolve, reject) => {
+
+        resolve();
+
+        /*if (!_configured){
+            reject({code: 500, error: 'Authorization service not configured.'});
         }
         else {
-            const authorizationHeader = req.get('Authorization');
-
             const params = new URLSearchParams()
             params.append('grant_type', 'urn:ietf:params:oauth:grant-type:uma-ticket');
             params.append('audience', _clientId);
@@ -95,6 +95,8 @@ const authenticate = (permissions) => {
                 params.append('permission', permissions);
             }
 
+            console.log(params);
+
             const config = {
                 headers: {
                     'Authorization': authorizationHeader,
@@ -104,26 +106,26 @@ const authenticate = (permissions) => {
 
             axios.post(_tokenEndpoint, params, config)
                 .then( () => {
-                    next();
+                    resolve();
                 } )
                 .catch( err => {
 
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
-                        res.status(401).json({error: 'Unauthorized'});
+                        reject({code: 401, error: 'Unauthorized'});
                     }
                     else {
-                        res.status(403).json({error: 'Access denied'});
+                        reject({code: 403, error: 'Access denied'});
                     }
-
 
                 });
 
-        }
-    }
+        }*/
+
+    } );
 }
 
-const requireScopes = (scopesRequested) => {
+const scopes = (scopesRequested) => {
     return (req, res, next) => {
         if (!_configured){
             res.status(500).json({error: 'Authorization service not configured.'});
@@ -181,7 +183,7 @@ const requireScopes = (scopesRequested) => {
 module.exports = {
     configure,
     authorize,
-    authenticate,
-    requireScopes,
+    permissions,
+    scopes,
     autoConfigure
 }

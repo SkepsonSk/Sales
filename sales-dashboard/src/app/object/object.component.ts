@@ -1,7 +1,7 @@
 import {Component, ComponentFactoryResolver, OnInit, ViewChild} from '@angular/core';
 import {ObjectDirective} from "../object.directive";
 import {ObjectService} from "../object.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {ObjectComponentService} from "../object-component.service";
 import {BaseObjectComponent} from "../base-object.component";
 import {ModalService} from "../modal-service.service";
@@ -18,6 +18,7 @@ export class ObjectComponent implements OnInit {
   object: any;
   objectFields: any;
   objectId: string = '';
+  state: string = '';
 
   relations: any;
 
@@ -30,7 +31,8 @@ export class ObjectComponent implements OnInit {
     private objectComponentService: ObjectComponentService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private modalService: ModalService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,14 +40,16 @@ export class ObjectComponent implements OnInit {
       this.objectName = <string>params.get('objectName');
       this.objectId = <string>params.get('objectId');
 
-      const obj = this.objectComponentService.getComponent(this.objectName);
-      if (obj != null) {
-        this.objectManagement.viewContainerRef.createComponent<BaseObjectComponent>(obj.component);
-      }
-
-      this.retrieveObject(this.objectName, this.objectId);
+      this.retrieveObject(this.objectName, this.objectId); //TODO switch to new object model
       this.retrieveRelations(<string>this.objectName);
     } );
+  }
+
+  // TODO move to helper class
+  randomString(length: number, chars: any) {
+    let result = '';
+    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
   }
 
   retrieveObject(objectName: string | null, objectId: string | null): void {
@@ -53,10 +57,17 @@ export class ObjectComponent implements OnInit {
       this.object = obj;
 
       this.objectFields = Object.keys(this.object); //TODO switch to layout api
+
+      const objComponent = this.objectComponentService.getComponent(this.objectName);
+      if (objComponent != null) {
+        const component = this.objectManagement.viewContainerRef.createComponent<BaseObjectComponent>(objComponent.component);
+        (<any>component.instance).object = obj;
+      }
     } );
   }
 
   retrieveRelations(objectName: string): void {
+    this.state = this.randomString(24, 'abcdefghijklmnoprstq1234567890');
     this.relationService.retrieveRelations(objectName).subscribe( relations => {
       this.relations = relations;
     } );
@@ -90,6 +101,15 @@ export class ObjectComponent implements OnInit {
         actions: {
           'Delete': ( prompt: any ) => {
             this.objectService.deleteObject(<string>objectName, objectId).subscribe( result => {
+
+              if (this.objectName === objectName) {
+                this.router.navigate(['/object', this.objectName])
+                  .catch(err => console.log(err));
+              }
+              else {
+                this.state = this.randomString(24, 'abcdefghijklmnoprstq1234567890');
+              }
+
               this.modalService.closeModal();
             } );
           },
@@ -107,15 +127,11 @@ export class ObjectComponent implements OnInit {
         instance.mode = 'edit';
         instance.objectName = objectName;
         instance.objectId = objectId
-      });
-  }
-
-  sendEditObjectRequestForRelated(objectName: string, objectId: string) {
-    this.modalService.openModal('object-creator', {},
-      instance => {
-        instance.mode = 'edit';
-        instance.objectName = objectName;
-        instance.objectId = objectId;
+        instance.afterResponse = () => {
+          this.retrieveObject(this.objectName, this.objectId);
+          this.retrieveRelations(<string>this.objectName);
+          this.modalService.closeModal();
+        }
       });
   }
 
@@ -130,7 +146,7 @@ export class ObjectComponent implements OnInit {
     else if (clickType == 'edit') {
       const objectName = body.objectName;
       const objectId = body.objectId;
-      this.sendEditObjectRequestForRelated(objectName, objectId);
+      this.sendEditObjectRequest(objectName, objectId);
     }
     else if (clickType == 'delete') {
       const objectName = body.objectName;

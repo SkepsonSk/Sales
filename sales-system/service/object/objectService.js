@@ -1,3 +1,6 @@
+const EventEmitter = require('events');
+const triggerEmitter = new EventEmitter();
+
 const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
@@ -18,13 +21,19 @@ const retrieve = (objectName, id) => {
 
     return new Promise( (resolve, reject) => {
         database.runSQL(sql)
-            .then( res =>  resolve(res[0]))
-            .catch( err => reject(err) );
+            .then( res => resolve(res[0]))
+            .catch( err => {
+                reject(err)
+            } );
     } );
 }
 
 const create = (objectName, data) => {
     objectName = objectName.toLowerCase();
+
+    console.log(data);
+
+    triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
 
     return new Promise( (resolve, reject) => {
         idGenerationService.generateID(objectName)
@@ -40,7 +49,13 @@ const create = (objectName, data) => {
                 let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
 
                 database.runSQLWithParams(sql, values)
-                    .then( res => resolve(res) )
+                    .then( res => {
+                        res.id = id;
+
+                        triggerEmitter.emit(`${objectName}AfterInsert`, {new: data});
+
+                        resolve(res);
+                    } )
                     .catch( err => reject(err));
 
             } )
@@ -48,18 +63,47 @@ const create = (objectName, data) => {
     } );
 }
 
-const update = (objectName, id, data) => {
+const update = async (objectName, id, data) => {
+    const oldObject = await retrieve(objectName, id);
     objectName = objectName.toLowerCase();
+
+    triggerEmitter.emit(`${objectName}BeforeUpdate`, { old: oldObject, new: data});
 
     let sql = `UPDATE ${objectName} SET ? WHERE id='${id}'`;
-    return database.runSQLWithParams(sql, data);
+    return new Promise( (resolve, reject) => {
+
+        database.runSQLWithParams(sql, data)
+            .then( res => {
+                triggerEmitter.emit(`${objectName}AfterUpdate`, { old: oldObject, new: data});
+                resolve(res);
+            } )
+            .catch( err => {
+                reject(err);
+            });
+    } );
+
 }
 
-const remove = (objectName, id) => {
+const remove = async (objectName, id) => {
+    const oldObject = await retrieve(objectName, id);
+
     objectName = objectName.toLowerCase();
+    triggerEmitter.emit(`${objectName}BeforeRemove`, { old: oldObject});
 
     const sql = `DELETE FROM ${objectName} WHERE id='${id}'`
-    return database.runSQL(sql);
+
+    return new Promise( (resolve, reject) => {
+
+        database.runSQL(sql)
+            .then( res => {
+                triggerEmitter.emit(`${objectName}AfterRemove`, { old: oldObject});
+                resolve(res);
+            } )
+            .catch( error => {
+                reject(error);
+            });
+
+    } );
 }
 
 const retrieveObjectNames = () => {
@@ -78,3 +122,4 @@ exports.create = create;
 exports.update = update;
 exports.remove = remove;
 exports.retrieveObjectNames = retrieveObjectNames;
+exports.triggerEmitter = triggerEmitter;

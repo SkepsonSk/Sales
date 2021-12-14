@@ -15,6 +15,7 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   @Input() objectId: string = '';
   @Input() object: any;
   @Input() layoutLoadedCallback: ((fields: any, values: any) => void) | undefined ;
+  @Input() afterResponse: ((response: any) => void) | undefined;
 
   objectTitle: string = '';
   fields: any;
@@ -49,12 +50,18 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   createObject() {
     this.objectService.createObject(this.objectName, this.values).subscribe( creationResult => {
       alert(JSON.stringify(creationResult));
+      if (this.afterResponse != undefined) {
+        this.afterResponse(creationResult);
+      }
     } )
   }
 
   editObject() {
     this.objectService.editObject(this.objectName, this.objectId, this.values).subscribe( editResult => {
       alert(JSON.stringify(editResult));
+      if (this.afterResponse != undefined) {
+        this.afterResponse(editResult);
+      }
     });
   }
 

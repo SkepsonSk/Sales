@@ -5,6 +5,8 @@ import {BaseObject} from "./base-object";
 import {ModalService} from "./modal-service.service";
 import {ObjectCreatorComponent} from "./object-creator/object-creator.component";
 import {PromptComponent} from "./prompt/prompt.component";
+import {AuthService} from "./service/auth.service";
+import {ClientComponent} from "./components/client/client/client.component";
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,7 @@ export class AppComponent {
   componentInstantiateCallback: ((instance: any) => void) | undefined;
 
   constructor(
+    private authService: AuthService,
     private objectComponentService: ObjectComponentService,
     private modalService: ModalService
   ) {}
@@ -29,6 +32,7 @@ export class AppComponent {
     this.objectComponentService.registerComponent('object-creator', new BaseObject(ObjectCreatorComponent));
     this.objectComponentService.registerComponent('prompt', new BaseObject(PromptComponent));
     this.objectComponentService.registerComponent('account', new BaseObject(AccountComponent));
+    this.objectComponentService.registerComponent('client', new BaseObject(ClientComponent));
 
     this.modalService.getData().subscribe( modalData => {
       if (modalData.modalVisible) {
@@ -41,6 +45,10 @@ export class AppComponent {
         this.closeModal();
       }
     } );
+  }
+
+  isAuthenticated() : boolean {
+    return this.authService.isAuthenticated();
   }
 
   closeModal() {

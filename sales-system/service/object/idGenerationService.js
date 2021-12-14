@@ -6,6 +6,8 @@ const {
 const metadata = require('./../../metadata/metadata');
 
 const generateID = (objectName) => {
+    console.log(objectName);
+
     return new Promise( (resolve, reject) => {
         metadata.read('objectCodes.json')
             .then( objectCodes => {

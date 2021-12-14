@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ObjectService} from "../object.service";
 import {ModalService} from "../modal-service.service";
 
@@ -18,7 +18,8 @@ export class ObjectListComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private objectService: ObjectService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +47,13 @@ export class ObjectListComponent implements OnInit {
       instance => {
         instance.mode = 'create';
         instance.objectName = this.objectName;
+        instance.afterResponse = ( response: any ) => {
+
+          const id = response.id;
+          this.router.navigate(['/object', this.objectName, id])
+            .catch(err => console.log(err));
+          this.modalService.closeModal();
+        }
       });
   }
 }

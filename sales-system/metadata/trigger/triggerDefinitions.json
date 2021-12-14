@@ -1,0 +1,8 @@
+{
+    "triggers": [
+        {
+            "name": "accountTrigger",
+            "active": true
+        }
+    ]
+}

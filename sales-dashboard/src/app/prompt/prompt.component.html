@@ -1,0 +1,14 @@
+<div class="w-1/2 bg-white ml-auto mr-auto mt-10 p-2 rounded">
+
+  <p> {{ promptMessage }} </p>
+
+  <div class="mt-5 flex">
+
+    <p *ngFor="let action of promptActions"
+       class="mr-2 cursor-pointer" (click)="promptData.actions[action](this)">
+      {{ action }}
+    </p>
+
+  </div>
+
+</div>
