@@ -1,9 +1,19 @@
 {
   "view": {
     "fields": [
-      "name",
-      "price",
-      "quantity"
+
+      {
+        "field": "name",
+        "name": "Name",
+        "type": "text"
+      },
+
+      {
+        "field": "price",
+        "name": "Unit Price",
+        "type": "text"
+      }
+
     ]
   },
   "edit": {

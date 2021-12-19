@@ -18,6 +18,8 @@ import { RelationsComponent } from './relations/relations.component';
 import { LoginComponent } from './login/login.component';
 import {CanActivateLoginUser} from "./guard/CanActivateLoginUser";
 import { ClientComponent } from './components/client/client/client.component';
+import { TextComponent } from './fields/text/text.component';
+import { RelationComponent } from './fields/relation/relation.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ClientComponent } from './components/client/client/client.component';
     PromptComponent,
     RelationsComponent,
     LoginComponent,
-    ClientComponent
+    ClientComponent,
+    TextComponent,
+    RelationComponent
   ],
   imports: [
     BrowserModule,

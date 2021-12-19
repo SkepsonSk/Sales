@@ -23,5 +23,5 @@ app.use(express.json());
 app.use('/object', objectRoute);
 app.use('/layout', layoutRoute);
 app.use('/relation', relationRoute);
-app.use('/object/define', objectDefinerRoute);
+app.use('/define', objectDefinerRoute);
 app.use('/client', clientRoute);

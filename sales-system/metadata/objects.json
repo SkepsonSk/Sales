@@ -39,7 +39,30 @@
     },
 
     "quote": {
-      "code": 4
+      "code": 4,
+
+      "relations": {
+
+        "quoteLines": {
+          "objectName": "QuoteLine",
+          "title": "Quote Lines",
+          "field": "quote",
+          "fields": ["name", "price", "quantity"]
+        }
+
+      },
+
+      "fields": {
+        "opportunity": {
+          "type": "relation",
+          "objectName": "opportunity",
+          "fields": ["name"]
+        }
+      }
+    },
+
+    "quoteLine": {
+      "code": 5
     }
 
   }

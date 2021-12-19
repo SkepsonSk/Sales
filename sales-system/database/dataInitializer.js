@@ -26,7 +26,13 @@ const initialize_v2 = async () => {
     const objectMetadata = await metadata.read('objects.json');
 
     for (const objectName of Object.keys(objectMetadata.objects)) {
-        await database.runSchema(`tables/${objectName}.sql`);
+
+        try {
+            await database.runSchema(`tables/${objectName}.sql`);
+        } catch (err) {
+            console.warn(`[DATABASE SYSTEM] Schema for ${objectName} failed to load (probably missing file). Skipping.`)
+        }
+
     }
 
     return Promise.resolve();

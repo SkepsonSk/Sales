@@ -19,8 +19,17 @@
 
     <div class="flex flex-wrap">
       <div *ngFor="let objectField of objectFields" class="mt-2 w-1/2">
-        <p> {{objectField}} </p>
-        <p> {{ object[objectField] }} </p>
+
+        <app-text *ngIf="objectField.type == 'text'"
+                  [value]="object[objectField.field]"
+                  [field]="objectField"></app-text>
+
+        <app-relation *ngIf="objectField.type == 'relation'"
+                  [value]="object[objectField.displayField]"
+                  [field]="objectField"
+                  [relatedTo]="objectField.related"
+                  [relationObjectId]="object[objectField.field]"></app-relation>
+
       </div>
     </div>
 

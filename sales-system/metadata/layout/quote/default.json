@@ -1,9 +1,21 @@
 {
   "view": {
     "fields": [
-      "id",
-      "name",
-      "opportunity"
+
+      {
+        "field": "name",
+        "name": "Name",
+        "type": "text"
+      },
+
+      {
+        "field": "opportunity",
+        "name": "Opportunity",
+        "type": "relation",
+        "displayField": "opportunity_name",
+        "related": "opportunity"
+      }
+
     ]
   },
   "edit": {

@@ -5,6 +5,7 @@
     "contact": 1,
     "client": 2,
     "opportunity": 3,
-    "quote": 4
+    "quote": 4,
+    "quoteline": 5
   }
 }

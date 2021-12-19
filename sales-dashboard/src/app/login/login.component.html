@@ -1,0 +1,11 @@
+<div>
+  <h2 class="text-2xl text-center mt-20"> Welcome to Sales! </h2>
+
+  <div class="flex flex-col items-center mt-5">
+    <input type="text" placeholder="Login..." class="border-2 rounded p-1" (change)="username = $any($event.target).value">
+    <input type="password" placeholder="Password..." class="border-2 rounded p-1 mt-1" (change)="password = $any($event.target).value">
+
+    <p class="border-2 p-2 mt-5 rounded cursor-pointer" (click)="tryLogin()"> Login </p>
+  </div>
+</div>
+

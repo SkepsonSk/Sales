@@ -4,6 +4,8 @@ const triggerEmitter = new EventEmitter();
 const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
+const ObjectQueryBuilder = require('./objectQueryBuilder');
+
 const metadata = require('./../../metadata/metadata');
 
 const list = (objectName) => {
@@ -16,8 +18,36 @@ const list = (objectName) => {
     } );
 }
 
-const retrieve = (objectName, id) => {
-    let sql = `SELECT * FROM ${objectName} WHERE Id='${id}'`;
+const retrieve = async (objectName, id) => {
+    const objectsMetadata = await metadata.read(`objects.json`);
+    const objectMetadata = objectsMetadata.objects[objectName];
+
+    let fields = [`${objectName}.id`, `${objectName}.name`, `${objectName}.type`];
+    let joins = [];
+
+    const objectQueryBuilder = new ObjectQueryBuilder();
+
+    Object.keys(objectMetadata.fields).forEach( fieldName => {
+        const fieldData = objectMetadata.fields[fieldName];
+        objectQueryBuilder[fieldData.type](fieldData);
+    } );
+
+    //TODO build a query builder class
+    if (objectMetadata.fields != null) {
+        Object.keys(objectMetadata.fields).forEach( field => {
+            const joinObject = objectMetadata.fields[field];
+            joins.push(`INNER JOIN ${joinObject.objectName} ON ${objectName}.${field} = ${joinObject.objectName}.id`);
+
+            fields.push(field);
+            for (let foreignField of joinObject.fields) {
+                fields.push(`${joinObject.objectName}.${foreignField} AS ${joinObject.objectName}_${foreignField}`);
+            }
+        } );
+    }
+
+    let sql = `SELECT ${fields.join(',')} FROM ${objectName} ${joins.join(' ')} WHERE ${objectName}.Id='${id}'`;
+
+    console.log(sql);
 
     return new Promise( (resolve, reject) => {
         database.runSQL(sql)
@@ -30,8 +60,6 @@ const retrieve = (objectName, id) => {
 
 const create = (objectName, data) => {
     objectName = objectName.toLowerCase();
-
-    console.log(data);
 
     triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
 

@@ -6,6 +6,7 @@ import {ObjectComponentService} from "../object-component.service";
 import {BaseObjectComponent} from "../base-object.component";
 import {ModalService} from "../modal-service.service";
 import {RelationsService} from "../service/relations.service";
+import {LayoutService} from "../layout.service";
 
 @Component({
   selector: 'app-object',
@@ -28,6 +29,7 @@ export class ObjectComponent implements OnInit {
   constructor(
     private objectService: ObjectService,
     private relationService: RelationsService,
+    private layoutService: LayoutService,
     private objectComponentService: ObjectComponentService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private modalService: ModalService,
@@ -56,7 +58,10 @@ export class ObjectComponent implements OnInit {
     this.objectService.retrieveObject(<string>objectName, <string>objectId).subscribe( obj => {
       this.object = obj;
 
-      this.objectFields = Object.keys(this.object); //TODO switch to layout api
+      this.layoutService.retrieveLayout(this.objectName, 'view')
+        .subscribe( fields => {
+          this.objectFields = fields.fields;
+        } );
 
       const objComponent = this.objectComponentService.getComponent(this.objectName);
       if (objComponent != null) {

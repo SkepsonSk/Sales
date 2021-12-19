@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       backgroundColor: theme => ({
         'black-opacity': 'rgba(0, 0, 0, 0.75)'
-      })
+      }),
     },
   },
   variants: {

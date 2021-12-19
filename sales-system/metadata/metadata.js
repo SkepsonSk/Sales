@@ -1,7 +1,14 @@
 const fs = require('fs');
+const dirname = require('path').dirname;
 
 const write = (metadataObject, path) => {
     const textObj = JSON.stringify(metadataObject);
+
+    if (!exists(`${__dirname}/${path}`)) {
+        const dir = dirname(`${__dirname}/${path}`);
+        console.log(dir);
+        fs.mkdirSync(dir, {recursive: true});
+    }
 
     fs.writeFile(`${__dirname}/${path}`, textObj, 'utf8', err => {
         if (err) {
@@ -27,5 +34,10 @@ const read = (path) => {
     } );
 }
 
+const exists = (path) => {
+    return fs.existsSync(`${__dirname}/${path}`);
+}
+
 exports.write = write;
 exports.read = read;
+exports.exists = exists;
