@@ -1,0 +1,5 @@
+<label class="block font-bold" [for]="fieldData.field"> {{ fieldData.name }} </label>
+<input class="block border"
+       [id]="fieldData.field" type="text"
+       [value]="values[fieldData.field]"
+       (change)="handleChange($any($event.target).value)">

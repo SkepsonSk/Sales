@@ -1,0 +1,15 @@
+<div class="bg-gray-100 rounded">
+
+  <div class="flex">
+
+    <p *ngFor="let path of pathData; let i = index"
+       class="text-center cursor-pointer p-2 first:rounded-l last:rounded-r"
+       [ngClass]="{'bg-green-600' : path.name == objectData[fieldName], 'bg-green-500': i < this.currentIndex, 'text-white': i <= this.currentIndex}"
+       [ngStyle]="{'width': 100/pathData.length + '%'}"
+       (click)="handleSelection(path.name)">
+      {{ path.displayName }}
+    </p>
+
+  </div>
+
+</div>

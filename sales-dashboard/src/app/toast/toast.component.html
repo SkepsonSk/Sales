@@ -1,0 +1,12 @@
+<div class="w-full flex justify-center absolute top-0 left-0 mt-10 z-50"
+     *ngIf="visible">
+  <div class="w-1/3 text-center"
+       (click)="handleClosingClick()">
+    <p class="text-white p-2 rounded"
+       [ngClass]="{'bg-red-600': type == 'error', 'bg-green-600': type == 'success'}">
+
+      {{ message }}
+
+    </p>
+  </div>
+</div>
