@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../service/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ToastService} from "../service/toast.service";
 
 @Component({
   selector: 'app-login',
@@ -14,22 +15,35 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {}
 
   tryLogin(): void {
+    this.route.queryParams
+      .subscribe( params => {
 
-    this.authService.authenticate(this.username, this.password)
-      .subscribe( (authData: any) => {
-
-        if (authData.ok) {
-          alert('Logged In!');
-          this.router.navigate(['']);
+        let url = '';
+        if (params['href'] != null) {
+          url = params['href'];
         }
 
-      } );
+        this.authService.authenticate(this.username, this.password)
+          .subscribe( (authData: any) => {
+
+            if (authData.ok) {
+              this.toastService.showToast('success', 'Logged in. Hello!');
+              this.router.navigate([url]);
+            }
+
+          } );
+
+    });
+
+
 
   }
 

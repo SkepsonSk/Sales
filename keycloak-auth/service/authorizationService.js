@@ -77,9 +77,7 @@ const authorize = () => {
 const permissions = (permissions, authorizationHeader) => {
     return new Promise( (resolve, reject) => {
 
-        resolve();
-
-        /*if (!_configured){
+        if (!_configured){
             reject({code: 500, error: 'Authorization service not configured.'});
         }
         else {
@@ -95,8 +93,6 @@ const permissions = (permissions, authorizationHeader) => {
                 params.append('permission', permissions);
             }
 
-            console.log(params);
-
             const config = {
                 headers: {
                     'Authorization': authorizationHeader,
@@ -109,7 +105,6 @@ const permissions = (permissions, authorizationHeader) => {
                     resolve();
                 } )
                 .catch( err => {
-
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
                         reject({code: 401, error: 'Unauthorized'});
@@ -120,7 +115,7 @@ const permissions = (permissions, authorizationHeader) => {
 
                 });
 
-        }*/
+        }
 
     } );
 }

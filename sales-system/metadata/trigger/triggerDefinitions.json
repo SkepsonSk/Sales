@@ -2,6 +2,18 @@
     "triggers": [
         {
             "name": "accountTrigger",
+            "active": false
+        },
+        {
+            "name": "clientTrigger",
+            "active": true
+        },
+        {
+            "name": "quoteLineTrigger",
+            "active": true
+        },
+        {
+            "name": "opportunityTrigger",
             "active": true
         }
     ]

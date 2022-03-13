@@ -1,6 +1,8 @@
-<app-topbar></app-topbar>
+<app-topbar *ngIf="isAuthenticated()"></app-topbar>
 
 <router-outlet></router-outlet>
+
+<app-toast></app-toast>
 
 <div class="w-full h-full absolute top-0 bg-black-opacity"
      *ngIf="modalVisible">

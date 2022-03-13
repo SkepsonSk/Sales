@@ -20,6 +20,12 @@ import {CanActivateLoginUser} from "./guard/CanActivateLoginUser";
 import { ClientComponent } from './components/client/client/client.component';
 import { TextComponent } from './fields/text/text.component';
 import { RelationComponent } from './fields/relation/relation.component';
+import { EditTextComponent } from './input/edit-text/edit-text.component';
+import { EditRelationComponent } from './input/edit-relation/edit-relation.component';
+import { ToastComponent } from './toast/toast.component';
+import { PathComponent } from './components/general/path/path.component';
+import { OpportunityComponent } from './components/opportunity/opportunity/opportunity.component';
+import { ContractComponent } from './components/contract/contract/contract.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +44,13 @@ import { RelationComponent } from './fields/relation/relation.component';
     LoginComponent,
     ClientComponent,
     TextComponent,
-    RelationComponent
+    RelationComponent,
+    EditTextComponent,
+    EditRelationComponent,
+    ToastComponent,
+    PathComponent,
+    OpportunityComponent,
+    ContractComponent
   ],
   imports: [
     BrowserModule,

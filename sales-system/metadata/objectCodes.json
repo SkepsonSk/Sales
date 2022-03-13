@@ -6,6 +6,7 @@
     "client": 2,
     "opportunity": 3,
     "quote": 4,
-    "quoteline": 5
+    "quoteline": 5,
+    "contract": 6
   }
 }

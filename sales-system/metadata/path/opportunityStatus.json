@@ -1,0 +1,18 @@
+{
+  "path": [
+
+    {
+      "name": "created",
+      "displayName": "Created"
+    },
+    {
+      "name": "progress",
+      "displayName": "In Progress"
+    },
+    {
+      "name": "closed",
+      "displayName": "Closed"
+    }
+
+  ]
+}

@@ -1,22 +1,44 @@
 module.exports = class ObjectQueryBuilder {
 
-    constructor() {
-        this.fields = ['id', 'name', 'type'];
+    constructor(objectName, id) {
+        this.objectName = objectName;
+        this.id = id;
+        this.fields = [`${this.objectName}.id`, `${this.objectName}.name`, `${this.objectName}.type`];
         this.joins = [];
+
+        this.relations = new Map();
     }
 
     text(fieldName, fieldData) {
-        console.log(fieldData);
+        const fieldExpr = `${this.objectName}.${fieldData.field}`;
+        if (!this.fields.includes(fieldExpr)) {
+            this.fields.push(fieldExpr);
+        }
     }
 
     relation(fieldName, fieldData) {
-        const joinObject = fieldData.objectName;
-        this.joins.push(`INNER JOIN ${joinObject.objectName} ON ${objectName}.${field} = ${joinObject.objectName}.id`);
+        //this.joins.push(`INNER JOIN ${fieldData.related} ON ${this.objectName}.${fieldData.field} = ${fieldData.related}.id`);
 
-        this.fields.push(fieldData);
-        for (let foreignField of joinObject.fields) {
-            fields.push(`${joinObject.objectName}.${foreignField} AS ${joinObject.objectName}_${foreignField}`);
+        if (!this.relations.has(fieldData.related)) {
+            this.relations.set(fieldData.related, fieldData.field);
         }
+
+        this.fields.push(`${this.objectName}.${fieldData.field}`);
+        this.fields.push(`${fieldData.related}.${fieldData.foreignField} AS ${fieldData.related}_${fieldData.foreignField}`);
+    }
+
+    toSQL() {
+        let joinsAdded = [];
+        this.relations.forEach( (related, relatedField) => {
+            if (!joinsAdded.includes(related)) {
+                joinsAdded.push(related);
+
+                this.joins.push(`INNER JOIN ${related} ON ${this.objectName}.${relatedField} = ${related}.id`);
+            }
+
+        } );
+
+        return `SELECT ${this.fields.join(',')} FROM ${this.objectName} ${this.joins.join(' ')} WHERE ${this.objectName}.Id='${this.id}'`;
     }
 
 }

@@ -42,7 +42,7 @@ export class ObjectComponent implements OnInit {
       this.objectName = <string>params.get('objectName');
       this.objectId = <string>params.get('objectId');
 
-      this.retrieveObject(this.objectName, this.objectId); //TODO switch to new object model
+      this.retrieveObject(this.objectName, this.objectId);
       this.retrieveRelations(<string>this.objectName);
     } );
   }
@@ -62,6 +62,8 @@ export class ObjectComponent implements OnInit {
         .subscribe( fields => {
           this.objectFields = fields.fields;
         } );
+
+      this.objectManagement.viewContainerRef.clear();
 
       const objComponent = this.objectComponentService.getComponent(this.objectName);
       if (objComponent != null) {
@@ -88,12 +90,13 @@ export class ObjectComponent implements OnInit {
         instance.objectName = objectName;
 
         instance.layoutLoadedCallback = (fields: any, values: any) => {
-          if (fields.includes(relatedField)) {
-            values[relatedField] = this.objectId;
-          }
-          else {
-            alert('Error, no related field on ' + objectName + ' layout!');
-          }
+          values[relatedField] = this.objectId;
+        }
+
+        instance.afterResponse = () => {
+          this.retrieveObject(this.objectName, this.objectId);
+          this.retrieveRelations(<string>this.objectName);
+          this.modalService.closeModal();
         }
       });
   }

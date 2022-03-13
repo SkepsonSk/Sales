@@ -12,6 +12,9 @@
     <p *ngFor="let obj of objects; index as i" [ngClass]="{ 'bg-gray-200' : i%2 == 0, 'p-1' : true}">
       <a [routerLink]="['/object', objectName, obj.id]"> {{obj.name}} </a>
     </p>
+
+    <p *ngIf="objects == null || objects.length == 0"> No records </p>
+
   </div>
 
 </div>

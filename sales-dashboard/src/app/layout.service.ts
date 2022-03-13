@@ -17,4 +17,9 @@ export class LayoutService {
     return this.http.get(`${apiUrl}/layout/${objectName}/${layoutType}`);
   }
 
+  retrieveLayoutEdit(objectName: string, layoutType: string): Observable<any> {
+    const apiUrl = environment.apiUrl;
+    return this.http.get(`${apiUrl}/layout/${objectName}/${layoutType}/edit`);
+  }
+
 }

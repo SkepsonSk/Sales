@@ -16,5 +16,3 @@ const loadDatabase = async () => {
 }
 
 exports.loadDatabase = loadDatabase;
-
-

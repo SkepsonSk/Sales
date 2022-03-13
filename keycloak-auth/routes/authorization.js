@@ -5,9 +5,7 @@ const authorizationService = require('../service/authorizationService');
 
 router.post('/permitted', (req, res) => {
     const permissions = req.body.permissions;
-    const authorizationHeader = req.header('Authorization');
-
-    console.log(req.body);
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
     authorizationService.permissions(permissions, authorizationHeader)
         .then( () => {

@@ -15,7 +15,7 @@ const convertClient = async (clientId) => {
 
     const firstName = client.firstName;
     const lastName = client.lastName;
-    await objectService.create('contact', {
+    const contact = await objectService.create('contact', {
         name: `${firstName} ${lastName}`,
         account: account.id
     });
@@ -26,7 +26,15 @@ const convertClient = async (clientId) => {
         account: account.id
     });
 
-    return Promise.resolve(opportunity);
+    await objectService.remove('client', clientId);
+
+    const acceptanceResult = {
+        account: account.id,
+        contact: contact.id,
+        opportunity: opportunity.id
+    }
+
+    return Promise.resolve(acceptanceResult);
 }
 
 exports.convertClient = convertClient;

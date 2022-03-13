@@ -3,6 +3,11 @@
     "fields": [
 
       {
+        "field": "name",
+        "name": "Name",
+        "type": "text"
+      },
+      {
         "field": "opportunity",
         "name": "Opportunity",
         "type": "relation",
@@ -10,13 +15,11 @@
         "related": "opportunity",
         "foreignField": "name"
       },
-
       {
-        "field": "quotePrice",
-        "name": "Total Quote Price",
+        "field": "status",
+        "name": "Status",
         "type": "text"
       }
-
     ]
   },
   "edit": {

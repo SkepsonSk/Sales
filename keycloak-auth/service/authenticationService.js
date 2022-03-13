@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const {auth} = require("mysql/lib/protocol/Auth");
 
 let url = null;
 let authenticationUrl = null;
@@ -56,7 +57,14 @@ const authenticate = (username, password) => {
                 };
 
                 TOKENS.set(token, tokenObject);
-                resolve({ token: token });
+                resolve({
+                    token: token,
+                    refreshToken: authData.data['refresh_token'],
+                    expires: {
+                        token: authData.data['expires_in'],
+                        refreshToken: authData.data['refresh_expires_in']
+                    }
+                });
             } )
             .catch( err => {
                 reject(err);

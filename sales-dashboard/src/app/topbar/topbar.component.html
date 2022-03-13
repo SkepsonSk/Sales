@@ -3,16 +3,21 @@
   <div class="flex items-center">
     <h1 class="text-2xl"> Sales </h1>
 
-    <p class="ml-auto"> Logged User </p>
+    <p class="ml-auto"> {{ getUsername() }} </p>
 
   </div>
 
   <div class="flex mt-2">
-    <a class="cursor-pointer" [routerLink]="'/'"> Home </a>
+    <a class="cursor-pointer"
+       [ngClass]="{ 'font-bold': getCurrentPage() == 'home' }"
+       (click)="navigateHome()">
+      Home
+    </a>
 
     <a class="cursor-pointer ml-5"
-       *ngFor="let objectName of objectNames"
-       [routerLink]="['/object', objectName]">
+       *ngFor="let objectName of objectNames; let i = index"
+       [ngClass]="{ 'font-bold': getCurrentPage() == objectName }"
+       (click)="navigateObject(objectName)">
       {{ firstCharUpper(objectName) }}
     </a>
   </div>

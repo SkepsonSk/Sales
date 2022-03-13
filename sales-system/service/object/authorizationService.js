@@ -3,9 +3,7 @@ const axios = require('axios');
 const permitted = (permissions, authorizationHeader) => {
     return new Promise( (resolve, reject) => {
 
-        resolve();
-
-        /*const config = {
+        const config = {
             headers: {
                 'Authorization': authorizationHeader,
                 'Content-Type': 'application/json'
@@ -16,7 +14,9 @@ const permitted = (permissions, authorizationHeader) => {
             permissions: permissions
         }, config)
             .then( () => resolve() )
-            .catch( err => reject(err) );*/
+            .catch( err => {
+                reject(err);
+            } );
 
     } );
 }

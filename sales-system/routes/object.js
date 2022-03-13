@@ -7,15 +7,16 @@ const authorizationService = require('./../service/object/authorizationService')
 
 router.get('/:objectName', (req, res) => {
     const objectName = req.params.objectName;
-    const authorizationHeader = req.header('Authorization');
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
-    authorizationService.permitted([`${objectUtil.capitalizeFirstLetter(objectName)}#view`], authorizationHeader)
+    authorizationService.permitted([`Object#view`], authorizationHeader)
         .then( () =>{
             objectService.list(objectName)
                 .then( data => res.json(data) )
                 .catch( err => res.status(500).json(err) );
         } )
         .catch( err => {
+            console.log(err);
             res.status(err.response.status).json({error: err.response.data.error});
         });
 });
@@ -23,11 +24,28 @@ router.get('/:objectName', (req, res) => {
 router.get('/:objectName/:objectId', (req, res) => {
     const objectName = req.params.objectName;
     const objectId = req.params.objectId;
-    const authorizationHeader = req.header('Authorization');
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
-    authorizationService.permitted([`${objectUtil.capitalizeFirstLetter(objectName)}#view`], authorizationHeader)
+    authorizationService.permitted([`Object#view`], authorizationHeader)
         .then( () =>{
             objectService.retrieve(objectName, objectId)
+                .then( data => res.json(data) )
+                .catch( err => res.status(500).json(err) );
+        } )
+        .catch( err => {
+            console.log(err);
+            res.status(err.response.status).json({error: err.response.data.error});
+        });
+});
+
+router.get('/:objectName/:objectId/edit', (req, res) => {
+    const objectName = req.params.objectName;
+    const objectId = req.params.objectId;
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
+
+    authorizationService.permitted([`Object#view`], authorizationHeader)
+        .then( () =>{
+            objectService.retrieveForEdit(objectName, objectId)
                 .then( data => res.json(data) )
                 .catch( err => res.status(500).json(err) );
         } )
@@ -39,24 +57,27 @@ router.get('/:objectName/:objectId', (req, res) => {
 router.post('/:objectName', (req, res) => {
     const data = req.body;
     const objectName = req.params.objectName;
-    const authorizationHeader = req.header('Authorization');
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
-    authorizationService.permitted([`${objectUtil.capitalizeFirstLetter(objectName)}#create`], authorizationHeader)
+    authorizationService.permitted([`Object#create`], authorizationHeader)
         .then( async () =>{
 
             try {
                 const result = await objectService.create(objectName, data);
                 res.json({affected: result.affectedRows, id: result.id})
-            } catch (error) {
-                console.log(error);
-                res.status(error.code).json({error: error.message});
+            } catch (err) {
+                if (err.code == null || isNaN(err.code)) {
+                    err.code = 500;
+                }
+
+                res.status(err.code).json({error: err.message});
             }
 
-            /*objectService.create(objectName, data)
-                .then( result => res.json({ok: true, affected: result.affectedRows, id: result.id}) )
-                .catch( err => res.status(400).json({ok: false, error: err}));*/
         } )
         .catch( err => {
+            if (err.response?.status == null || isNaN(err.response.status)) {
+                err.code = 500;
+            }
             res.status(err.response.status).json({error: err.response.data.error});
         });
 });
@@ -65,23 +86,27 @@ router.put('/:objectName/:objectId', (req, res) => {
     const data = req.body;
     const objectName = req.params.objectName;
     const objectId = req.params.objectId;
-    const authorizationHeader = req.header('Authorization');
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
-    authorizationService.permitted([`${objectUtil.capitalizeFirstLetter(objectName)}#edit`], authorizationHeader)
+    authorizationService.permitted([`Object#edit`], authorizationHeader)
         .then( async () =>{
 
             try {
                 const result = await objectService.update(objectName, objectId, data)
                 res.json({affected: result.affectedRows});
-            } catch (error) {
-                res.status(error.code).json({error: error.message});
+            } catch (err) {
+                if (err.code == null || isNaN(err.code)) {
+                    err.code = 500;
+                }
+                res.status(err.code).json({error: err.message});
             }
 
-            /*objectService.update(objectName, objectId, data)
-                .then( result => res.json({ok: true, affected: result.affectedRows}) )
-                .catch( err => res.status(400).json({ok: false, error: err}));*/
         } )
         .catch( err => {
+            console.log(err);
+            if (err.response?.status == null || isNaN(err.response.status)) {
+                err.code = 500;
+            }
             res.status(err.response.status).json({error: err.response.data.error});
         });
 });
@@ -89,23 +114,26 @@ router.put('/:objectName/:objectId', (req, res) => {
 router.delete('/:objectName/:objectId', (req, res) => {
     const objectName = req.params.objectName;
     const objectId = req.params.objectId;
-    const authorizationHeader = req.header('Authorization');
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
-    authorizationService.permitted([`${objectUtil.capitalizeFirstLetter(objectName)}#delete`], authorizationHeader)
+    authorizationService.permitted([`Object#delete`], authorizationHeader)
         .then( async () =>{
 
             try {
                 const result = await objectService.remove(objectName, objectId);
                 res.json({affected: result.affectedRows});
-            } catch (error) {
-                res.status(error.code).json({error: error.message});
+            } catch (err) {
+                if (err.code == null || isNaN(err.code)) {
+                    err.code = 500;
+                }
+                res.status(err.code).json({error: err.message});
             }
 
-            /*objectService.remove(objectName, objectId)
-                .then( result => res.json({ok: true, affected: result.affectedRows}) )
-                .catch( err => res.status(400).json({ok: false, error: err}));*/
         } )
         .catch( err => {
+            if (err.response?.status == null || isNaN(err.response.status)) {
+                err.code = 500;
+            }
             res.status(err.response.status).json({error: err.response.data.error});
         });
 });

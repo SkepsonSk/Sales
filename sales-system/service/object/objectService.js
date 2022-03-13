@@ -5,6 +5,7 @@ const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
 const ObjectQueryBuilder = require('./objectQueryBuilder');
+const ObjectValidator = require('./objectValidator');
 
 const metadata = require('./../../metadata/metadata');
 
@@ -19,35 +20,17 @@ const list = (objectName) => {
 }
 
 const retrieve = async (objectName, id) => {
-    const objectsMetadata = await metadata.read(`objects.json`);
-    const objectMetadata = objectsMetadata.objects[objectName];
+    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
+    const layoutMetadata = layoutMetadataObj.view;
 
-    let fields = [`${objectName}.id`, `${objectName}.name`, `${objectName}.type`];
-    let joins = [];
+    const objectQueryBuilder = new ObjectQueryBuilder(objectName, id);
 
-    const objectQueryBuilder = new ObjectQueryBuilder();
-
-    Object.keys(objectMetadata.fields).forEach( fieldName => {
-        const fieldData = objectMetadata.fields[fieldName];
-        objectQueryBuilder[fieldData.type](fieldData);
+    Object.keys(layoutMetadata.fields).forEach( fieldName => {
+        const fieldData = layoutMetadata.fields[fieldName];
+        objectQueryBuilder[fieldData.type](fieldName, fieldData);
     } );
 
-    //TODO build a query builder class
-    if (objectMetadata.fields != null) {
-        Object.keys(objectMetadata.fields).forEach( field => {
-            const joinObject = objectMetadata.fields[field];
-            joins.push(`INNER JOIN ${joinObject.objectName} ON ${objectName}.${field} = ${joinObject.objectName}.id`);
-
-            fields.push(field);
-            for (let foreignField of joinObject.fields) {
-                fields.push(`${joinObject.objectName}.${foreignField} AS ${joinObject.objectName}_${foreignField}`);
-            }
-        } );
-    }
-
-    let sql = `SELECT ${fields.join(',')} FROM ${objectName} ${joins.join(' ')} WHERE ${objectName}.Id='${id}'`;
-
-    console.log(sql);
+    const sql = objectQueryBuilder.toSQL();
 
     return new Promise( (resolve, reject) => {
         database.runSQL(sql)
@@ -58,10 +41,35 @@ const retrieve = async (objectName, id) => {
     } );
 }
 
-const create = (objectName, data) => {
-    objectName = objectName.toLowerCase();
+const retrieveForEdit = async (objectName, id) => {
+    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
+    const layoutMetadata = layoutMetadataObj.edit;
 
+    let fields = [];
+    for (const fieldData of layoutMetadata.fields) {
+        fields.push(fieldData.field);
+    }
+
+    const sql = `SELECT ${fields.join(',')} FROM ${objectName} WHERE id='${id}'`;
+
+    return new Promise( (resolve, reject) => {
+        database.runSQL(sql)
+            .then( res => resolve(res[0]))
+            .catch( err => {
+                reject(err)
+            } );
+    } );
+}
+
+const create = async(objectName, data) => {
+    objectName = objectName.toLowerCase();
     triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
+
+    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
+    const layoutMetadata = layoutMetadataObj.edit;
+
+    const objectValidator = new ObjectValidator(layoutMetadata, data);
+    objectValidator.process();
 
     return new Promise( (resolve, reject) => {
         idGenerationService.generateID(objectName)
@@ -124,6 +132,7 @@ const remove = async (objectName, id) => {
 
         database.runSQL(sql)
             .then( res => {
+                console.log(`${objectName}AfterRemove`);
                 triggerEmitter.emit(`${objectName}AfterRemove`, { old: oldObject});
                 resolve(res);
             } )
@@ -146,6 +155,7 @@ const retrieveObjectNames = () => {
 
 exports.list = list;
 exports.retrieve = retrieve;
+exports.retrieveForEdit = retrieveForEdit;
 exports.create = create;
 exports.update = update;
 exports.remove = remove;

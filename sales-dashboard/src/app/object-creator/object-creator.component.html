@@ -6,12 +6,16 @@
   <div class="flex flex-col flex-wrap w-full mt-2">
 
     <div *ngFor="let field of fields; index as i" class="w-1/2">
-      <label class="block" [for]="field"> {{ field }} </label>
 
-      <input class="block border"
-             [id]="field" type="text"
-             [value]="values[field]"
-             (change)="values[field] = $any($event.target).value">
+      <app-edit-text *ngIf="field.type == 'text'"
+                     [fieldData]="field"
+                     [values]="values" (interact)="values[field.field] = $event.text">
+      </app-edit-text>
+      <app-edit-relation *ngIf="field.type == 'relation'"
+                     [fieldData]="field"
+                     [values]="values" (interact)="values[field.field] = $event.text">
+      </app-edit-relation>
+
     </div>
 
     <p *ngIf="mode === 'create'" class="mt-5 cursor-pointer" (click)="createObject()"> Create </p>

@@ -1,0 +1,14 @@
+{
+  "path": [
+
+    {
+      "name": "draft",
+      "displayName": "Draft"
+    },
+    {
+      "name": "active",
+      "displayName": "Active"
+    }
+
+  ]
+}

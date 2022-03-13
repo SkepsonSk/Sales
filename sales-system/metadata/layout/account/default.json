@@ -1,13 +1,31 @@
 {
   "view": {
     "fields": [
-      "id",
-      "name"
+      {
+        "field": "name",
+        "name": "Name",
+        "type": "text"
+      }
     ]
   },
   "edit": {
     "fields": [
-      "name"
+
+      {
+        "field": "name",
+        "name": "Name",
+        "type": "text",
+        "validations": [
+
+          {
+            "type": "regex",
+            "regex": "^[A-Z]+[a-zA-Z]*$",
+            "errorMessage": "Account name must start with capital letter."
+          }
+
+        ]
+      }
+
     ]
   }
 }

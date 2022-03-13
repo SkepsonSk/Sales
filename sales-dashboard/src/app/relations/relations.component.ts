@@ -56,6 +56,10 @@ export class RelationsComponent implements OnInit {
       } );
   }
 
+  firstLetterLow = (text: string) => {
+    return text.charAt(0).toLowerCase() + text.slice(1)
+  }
+
   fireClickNewEvent(): void {
     const clickBody = { type: 'new', objectName: this.relationObjectName, relatedField: this.relatedField};
     this.clicked.emit(clickBody);

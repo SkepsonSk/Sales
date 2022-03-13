@@ -1,9 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 
-const objectRoute = require('./routes/object')
-const layoutRoute = require('./routes/layout')
-const relationRoute = require('./routes/relation')
+const objectRoute = require('./routes/object');
+const layoutRoute = require('./routes/layout');
+const relationRoute = require('./routes/relation');
+const pathRoute = require('./routes/path');
 const objectDefinerRoute = require('./routes/objectDefiner');
 const clientRoute = require('./routes/client/client');
 
@@ -23,5 +24,6 @@ app.use(express.json());
 app.use('/object', objectRoute);
 app.use('/layout', layoutRoute);
 app.use('/relation', relationRoute);
+app.use('/path', pathRoute);
 app.use('/define', objectDefinerRoute);
 app.use('/client', clientRoute);

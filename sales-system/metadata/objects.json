@@ -33,6 +33,12 @@
           "title": "Quotes",
           "field": "opportunity",
           "fields": ["name", "type"]
+        },
+        "contracts": {
+          "objectName": "contract",
+          "title": "Contracts",
+          "field": "opportunity",
+          "fields": ["name", "status"]
         }
 
       }
@@ -63,6 +69,10 @@
 
     "quoteLine": {
       "code": 5
+    },
+
+    "contract": {
+      "code": 6
     }
 
   }

@@ -7,6 +7,9 @@ import {ObjectCreatorComponent} from "./object-creator/object-creator.component"
 import {PromptComponent} from "./prompt/prompt.component";
 import {AuthService} from "./service/auth.service";
 import {ClientComponent} from "./components/client/client/client.component";
+import {ToastService} from "./service/toast.service";
+import {OpportunityComponent} from "./components/opportunity/opportunity/opportunity.component";
+import {ContractComponent} from "./components/contract/contract/contract.component";
 
 @Component({
   selector: 'app-root',
@@ -33,6 +36,8 @@ export class AppComponent {
     this.objectComponentService.registerComponent('prompt', new BaseObject(PromptComponent));
     this.objectComponentService.registerComponent('account', new BaseObject(AccountComponent));
     this.objectComponentService.registerComponent('client', new BaseObject(ClientComponent));
+    this.objectComponentService.registerComponent('opportunity', new BaseObject(OpportunityComponent));
+    this.objectComponentService.registerComponent('contract', new BaseObject(ContractComponent));
 
     this.modalService.getData().subscribe( modalData => {
       if (modalData.modalVisible) {

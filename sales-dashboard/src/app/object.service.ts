@@ -26,22 +26,52 @@ export class ObjectService {
 
   retrieveObject(objectName: string, objectId: string): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}`);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}`, header);
+  }
+
+  retrieveObjectForEdit(objectName: string, objectId: string): Observable<any> {
+    const apiUrl = environment.apiUrl;
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}/edit`, header);
   }
 
   createObject(objectName: string, objectData: any): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.post(`${apiUrl}/object/${objectName}`, objectData);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.post(`${apiUrl}/object/${objectName}`, objectData, header);
   }
 
   editObject(objectName: string, objectId: string, objectData: any): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.put(`${apiUrl}/object/${objectName}/${objectId}`, objectData);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.put(`${apiUrl}/object/${objectName}/${objectId}`, objectData, header);
   }
 
   deleteObject(objectName: string, objectId: string): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.delete(`${apiUrl}/object/${objectName}/${objectId}`);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.delete(`${apiUrl}/object/${objectName}/${objectId}`, header);
   }
 
   retrieveObjectNames(): Observable<any> {

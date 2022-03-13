@@ -35,8 +35,7 @@
 
   </div>
 
-  <div class="mt-5">
-
+  <div class="mt-5" *ngIf="relations != null && relations.length != 0">
     <h3 class="text-xl"> Related </h3>
 
     <div *ngFor="let relationName of relations">
@@ -47,7 +46,6 @@
                      (clicked)="handleRelationClicked($event)">
       </app-relations>
     </div>
-
   </div>
 
 </div>

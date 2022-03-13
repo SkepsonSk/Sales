@@ -7,11 +7,11 @@ router.get('/convert/:clientId', async (req, res) => {
     const clientId = req.params.clientId;
 
     try {
-        await clientService.convertClient(clientId);
-        res.json({ok: true});
+        const acceptanceData = await clientService.convertClient(clientId);
+        res.json(acceptanceData);
     }
     catch (err) {
-        res.status(err.status).json({ok: false, error: err.message});
+        res.status(err.code).json({error: err.message});
     }
 });
 

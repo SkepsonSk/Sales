@@ -9,7 +9,15 @@ router.post('/authenticate', (req, res) => {
 
     authenticationService.authenticate(username, password)
         .then( authData => {
-            res.json({ok: true, token: authData.token});
+            res.json({
+                ok: true,
+                token: authData.token,
+                refreshToken: authData.refreshToken,
+                expires: {
+                    token: authData.expires.token,
+                    refreshToken: authData.expires.refreshToken
+                }
+            });
         } )
         .catch( err => {
             res.status(401).json({ok: false, error: err});
