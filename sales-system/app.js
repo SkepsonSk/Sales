@@ -14,7 +14,7 @@ const app = express();
 appLoader.initializeApp()
     .then( () => {
         console.info('[SALES SYSTEM] App loaded.');
-        app.listen(19061, () => {
+        app.listen(process.env.PORT || 19061, () => {
             const arguments = process.argv;
 
             console.log('[SALES SYSTEM] Listening...');
