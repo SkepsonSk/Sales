@@ -4,7 +4,8 @@
   "description": "Core Sales system",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "node app.js"
   },
   "author": "Jakub Zelmanowicz",
   "license": "ISC",

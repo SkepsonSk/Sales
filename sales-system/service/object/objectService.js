@@ -41,6 +41,9 @@ const retrieve = async (objectName, id) => {
     } );
 }
 
+/**
+ * @deprecated will be replaced with retrieve
+ */
 const retrieveForEdit = async (objectName, id) => {
     const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
     const layoutMetadata = layoutMetadataObj.edit;
