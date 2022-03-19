@@ -4,7 +4,7 @@
   "description": "Core Sales system",
   "main": "app.js",
   "scripts": {
-    "start": "node sales-system/app.js",
+    "start": "node sales-system/app.js && ng serve",
     "install": "cd sales-system && npm install"
   },
   "author": "Jakub Zelmanowicz",
