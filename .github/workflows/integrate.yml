@@ -16,3 +16,6 @@ jobs:
         working-directory: sales-system
       - run: npm test
         working-directory: sales-system
+      - run: npm run build
+        working-directory: sales-system
+
