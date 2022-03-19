@@ -3,9 +3,9 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.static(__dirname + '/dist/sales-dev-dashboard'));
+app.use(express.static(__dirname + '/dist/sales-dashboard'));
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/sales-dev-dashboard/index.html'));
+  res.sendFile(path.join(__dirname, '/dist/sales-dashboard/index.html'));
 });
 
 const port = process.env.PORT || 8080;
