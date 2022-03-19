@@ -12,7 +12,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
-      - run: cd sales-system
       - run: npm ci
+        working-directory: sales-system
       - run: npm test
+        working-directory: sales-system
       - run: npm run build
+        working-directory: sales-system
