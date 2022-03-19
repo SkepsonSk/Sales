@@ -14,7 +14,15 @@ const app = express();
 appLoader.initializeApp()
     .then( () => {
         console.info('[SALES SYSTEM] App loaded.');
-        app.listen(19061, () => console.log('[SALES SYSTEM] Listening...'));
+        app.listen(19061, () => {
+            const arguments = process.argv;
+
+            console.log('[SALES SYSTEM] Listening...');
+            if (arguments.includes('--stop')) {
+                console.log('[SALES SYSTEM] Requested stop...');
+                process.exit();
+            }
+        });
     });
 
 app.use(cors({ origin: 'http://localhost:4200', optionsSuccessStatus: 200 }));

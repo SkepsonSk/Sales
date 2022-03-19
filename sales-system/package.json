@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "build": "node app.js"
+    "build": "node app.js --stop",
+    "start": "node app.js"
   },
   "author": "Jakub Zelmanowicz",
   "license": "ISC",
