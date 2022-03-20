@@ -36,9 +36,9 @@ const allowCrossDomain = function(req, res, next) {
 }
 
 //app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
-app.use(allowCrossDomain);
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(allowCrossDomain);
 
 app.use('/object', objectRoute);
 app.use('/layout', layoutRoute);
