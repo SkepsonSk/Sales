@@ -25,20 +25,12 @@ appLoader.initializeApp()
         });
     });
 
-const dashboardServer = process.env.DASHBOARD_URL || 'http://localhost:4200';
-const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', dashboardServer);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Access-Control-Allow-Origin,X-Requested-With');
-    res.header('Access-Control-Allow-Credentials', true);
-
-    next();
-}
+//const dashboardServer = process.env.DASHBOARD_URL || 'http://localhost:4200';
 
 //app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
+app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(allowCrossDomain);
 
 app.use('/object', objectRoute);
 app.use('/layout', layoutRoute);
