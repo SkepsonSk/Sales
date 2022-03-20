@@ -1,6 +1,5 @@
 const axios = require('axios');
 const fs = require('fs');
-const {auth} = require("mysql/lib/protocol/Auth");
 
 let url = null;
 let authenticationUrl = null;

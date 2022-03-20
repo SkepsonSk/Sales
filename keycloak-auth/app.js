@@ -16,4 +16,5 @@ authenticationService.autoConfigure();
 app.use('/authentication', authentication);
 app.use('/authorization', authorization);
 
-app.listen(19060 , () => console.log('[KEYCLOAK AUTH] Listening...'));
+const port = process.env.PORT || 19060;
+app.listen(port , () => console.log('[KEYCLOAK AUTH] Listening...'));
