@@ -26,7 +26,16 @@ appLoader.initializeApp()
     });
 
 const dashboardServer = process.env.DASHBOARD_URL || 'http://localhost:4200';
-app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
+const allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', dashboardServer);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
+//app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
+app.use(allowCrossDomain);
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
