@@ -10,7 +10,8 @@ const permitted = (permissions, authorizationHeader) => {
             }
         }
 
-        axios.post('http://localhost:19060/authorization/permitted', {
+        const authURL = process.env.AUTH_URL || 'http://localhost:19060';
+        axios.post(`${authURL}/authorization/permitted`, {
             permissions: permissions
         }, config)
             .then( () => resolve() )
