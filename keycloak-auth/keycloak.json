@@ -1,0 +1,13 @@
+{
+  "realm": "ElementalShards",
+  "auth-server-url": "http://54.38.53.128:8180/auth/",
+  "ssl-required": "external",
+  "resource": "web-app",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "55db7b30-8c85-41b0-8d35-a9c80bc9aa30"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}
