@@ -25,7 +25,8 @@ appLoader.initializeApp()
         });
     });
 
-app.use(cors({ origin: 'http://localhost:4200', optionsSuccessStatus: 200 }));
+const dashboardServer = process.env.DASHBOARD_URL || 'http://localhost:4200';
+app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 

@@ -7,7 +7,9 @@ const authentication = require('./routes/authentication');
 const authorization = require('./routes/authorization');
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:4200', optionsSuccessStatus: 200 }));
+
+const dashboardServer = process.env.DASHBOARD_URL || 'http://localhost:4200';
+app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
 app.use(express.json());
 
 auth.autoConfigure();
