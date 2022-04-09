@@ -1,0 +1,32 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "opportunity": {
+      "name": "Opportunity",
+      "type": "relation",
+      "displayField": "opportunity_name",
+      "related": "opportunity",
+      "foreignField": "name"
+    },
+
+    "quotePrice": {
+      "name": "Total Quote Price",
+      "type": "text"
+    }
+  }
+}

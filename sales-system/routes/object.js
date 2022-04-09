@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const objectService = require('./../service/object/objectService');
-const objectUtil = require('./../service/object/objectUtil');
 const authorizationService = require('./../service/object/authorizationService');
 
 router.get('/:objectName', (req, res) => {
@@ -26,9 +25,11 @@ router.get('/:objectName/:objectId', (req, res) => {
     const objectId = req.params.objectId;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
 
+    const fields = req.query?.fields;
+
     authorizationService.permitted([`Object#view`], authorizationHeader)
         .then( () =>{
-            objectService.retrieve(objectName, objectId)
+            objectService.retrieve(objectName, objectId, fields)
                 .then( data => res.json(data) )
                 .catch( err => res.status(500).json(err) );
         } )
@@ -38,6 +39,26 @@ router.get('/:objectName/:objectId', (req, res) => {
         });
 });
 
+router.get('/:objectName/:objectId/:layoutName/:type', (req, res) => {
+    const objectName = req.params.objectName;
+    const objectId = req.params.objectId;
+    const layoutName = req.params.layoutName;
+    const type = req.params.type;
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
+
+    authorizationService.permitted([`Object#view`], authorizationHeader)
+        .then( () =>{
+            objectService.layout(objectName, objectId, layoutName, type)
+                .then( data => res.json(data) )
+                .catch( err => res.status(500).json(err) );
+        } )
+        .catch( err => {
+            console.log(err);
+            res.status(err.response.status).json({error: err.response.data.error});
+        });
+});
+
+/* Deprecated */
 router.get('/:objectName/:objectId/edit', (req, res) => {
     const objectName = req.params.objectName;
     const objectId = req.params.objectId;

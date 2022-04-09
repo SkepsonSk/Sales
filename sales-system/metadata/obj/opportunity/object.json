@@ -1,0 +1,32 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "account": {
+      "name": "Account",
+      "type": "relation",
+      "displayField": "account_name",
+      "related": "account",
+      "foreignField": "name"
+    },
+
+    "status": {
+      "name": "Status",
+      "type": "text"
+    }
+  }
+}

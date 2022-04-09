@@ -1,36 +1,14 @@
 {
   "view": {
     "fields": [
-
-      {
-        "field": "name",
-        "name": "Name",
-        "type": "text"
-      },
-      {
-        "field": "opportunity",
-        "name": "Opportunity",
-        "type": "relation",
-        "displayField": "opportunity_name",
-        "related": "opportunity",
-        "foreignField": "name"
-      },
-      {
-        "field": "status",
-        "name": "Status",
-        "type": "text"
-      }
+      "name",
+      "opportunity",
+      "status"
     ]
   },
   "edit": {
     "fields": [
-
-      {
-        "field": "name",
-        "name": "Name",
-        "type": "text"
-      }
-
+      "name"
     ]
   }
 }

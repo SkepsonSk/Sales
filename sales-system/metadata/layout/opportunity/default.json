@@ -2,12 +2,13 @@
   "view": {
     "fields": [
       "name",
-      "type"
+      "account"
     ]
   },
   "edit": {
     "fields": [
-      "name"
+      "name",
+      "account"
     ]
   }
 }

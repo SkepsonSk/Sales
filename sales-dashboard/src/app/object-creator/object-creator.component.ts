@@ -34,9 +34,10 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
     this.retrieveData(this.objectName, this.mode == 'edit' ? this.objectId : 'none');
   }
 
+  //TODO retrieve record type mapping
   retrieveData(objectName: string, objectId: string) {
-    this.objectService.retrieveObjectForEdit(objectName, objectId).subscribe( object => {
-      this.layoutService.retrieveLayout(objectName, 'edit').subscribe( layout => {
+    this.objectService.retrieveObject(objectName, objectId).subscribe( object => {
+      this.layoutService.retrieveLayout(objectName, 'default', 'edit').subscribe( layout => {
         this.fields = layout.fields;
 
         this.fields.forEach( (fieldData: any) => {

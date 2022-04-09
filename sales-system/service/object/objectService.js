@@ -19,49 +19,34 @@ const list = (objectName) => {
     } );
 }
 
-const retrieve = async (objectName, id) => {
-    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
-    const layoutMetadata = layoutMetadataObj.view;
+const retrieve = async (objectName, id, fields = null) => {
+    const object = await metadata.read(`obj/${objectName}/object.json`);
 
     const objectQueryBuilder = new ObjectQueryBuilder(objectName, id);
-
-    Object.keys(layoutMetadata.fields).forEach( fieldName => {
-        const fieldData = layoutMetadata.fields[fieldName];
-        objectQueryBuilder[fieldData.type](fieldName, fieldData);
-    } );
+    Object.keys(object.fields).forEach( fieldName => {
+        if (fields == null || fields.includes(fieldName)) {
+            const field = object.fields[fieldName];
+            objectQueryBuilder[field.type](fieldName, field);
+        }
+    });
 
     const sql = objectQueryBuilder.toSQL();
 
-    return new Promise( (resolve, reject) => {
-        database.runSQL(sql)
-            .then( res => resolve(res[0]))
-            .catch( err => {
-                reject(err)
-            } );
+    return new Promise( async (resolve, reject) => {
+
+        try {
+            const results = await database.transaction([{sql: sql}]);
+            resolve(results[0][0][0]);
+        } catch (e) {
+            reject(e);
+        }
+
     } );
 }
 
-/**
- * @deprecated will be replaced with retrieve
- */
-const retrieveForEdit = async (objectName, id) => {
-    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
-    const layoutMetadata = layoutMetadataObj.edit;
-
-    let fields = [];
-    for (const fieldData of layoutMetadata.fields) {
-        fields.push(fieldData.field);
-    }
-
-    const sql = `SELECT ${fields.join(',')} FROM ${objectName} WHERE id='${id}'`;
-
-    return new Promise( (resolve, reject) => {
-        database.runSQL(sql)
-            .then( res => resolve(res[0]))
-            .catch( err => {
-                reject(err)
-            } );
-    } );
+const layout = async (objectName, id, layoutName = 'default', type = 'view') => {
+    const layoutMetadata = await metadata.read(`layout/${objectName}/${layoutName}.json`);
+    return retrieve2(objectName, id, layoutMetadata[type].fields);
 }
 
 const create = async(objectName, data) => {
@@ -158,7 +143,7 @@ const retrieveObjectNames = () => {
 
 exports.list = list;
 exports.retrieve = retrieve;
-exports.retrieveForEdit = retrieveForEdit;
+exports.layout = layout;
 exports.create = create;
 exports.update = update;
 exports.remove = remove;

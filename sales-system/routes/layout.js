@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const metadata = require('./../metadata/metadata');
+const layoutService = require('./../service/layout/layoutService');
 
-router.get('/:objectName/:layoutType', (req, res) => {
+router.get('/:objectName/:layoutName/:layoutType', async (req, res) => {
     const objectName = req.params.objectName;
+    const layoutName = req.params.layoutName;
     const layoutType = req.params.layoutType;
 
-    metadata.read(`layout/${objectName}/default.json`)
-        .then( layout => res.json(layout[layoutType]) )
-        .catch( err => res.status(500).json({ok: false, err: err}) );
+    const fields = await layoutService.retrieve(objectName, layoutName, layoutType);
+
+    res.json({fields: fields});
 });
 
 module.exports = router;

@@ -12,9 +12,9 @@ export class LayoutService {
     private http: HttpClient
   ) { }
 
-  retrieveLayout(objectName: string, layoutType: string): Observable<any> {
+  retrieveLayout(objectName: string, layoutName: string, layoutType: string): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.get(`${apiUrl}/layout/${objectName}/${layoutType}`);
+    return this.http.get(`${apiUrl}/layout/${objectName}/${layoutName}/${layoutType}`);
   }
 
   retrieveLayoutEdit(objectName: string, layoutType: string): Observable<any> {
