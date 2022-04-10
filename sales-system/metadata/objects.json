@@ -4,6 +4,7 @@
 
     "account": {
       "code": 0,
+      "fields": [],
       "relations": {
 
         "contacts": {

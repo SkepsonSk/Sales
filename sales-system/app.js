@@ -6,6 +6,7 @@ const layoutRoute = require('./routes/layout');
 const relationRoute = require('./routes/relation');
 const pathRoute = require('./routes/path');
 const objectDefinerRoute = require('./routes/objectDefiner');
+const exportingRouter = require('./routes/exporting');
 const clientRoute = require('./routes/client/client');
 
 const appLoader = require('./appLoader');
@@ -35,4 +36,5 @@ app.use('/layout', layoutRoute);
 app.use('/relation', relationRoute);
 app.use('/path', pathRoute);
 app.use('/define', objectDefinerRoute);
+app.use('/export', exportingRouter);
 app.use('/client', clientRoute);
