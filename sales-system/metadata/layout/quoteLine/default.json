@@ -1,54 +1,17 @@
 {
   "view": {
     "fields": [
-
-      {
-        "field": "price",
-        "name": "Unit Price",
-        "type": "text"
-      },
-      {
-        "field": "quantity",
-        "name": "Quantity",
-        "type": "text"
-      },
-      {
-        "field": "quote",
-        "name": "Quote",
-        "type": "relation",
-
-        "displayField": "quote_name",
-
-        "related": "quote",
-        "foreignField": "name"
-      }
-
+      "price",
+      "quantity",
+      "quote"
     ]
   },
   "edit": {
     "fields": [
-
-      {
-        "field": "name",
-        "name": "Name",
-        "type": "text"
-      },
-      {
-        "field": "price",
-        "name": "Unit Price",
-        "type": "text"
-      },
-      {
-        "field": "quantity",
-        "name": "Quantity",
-        "type": "text"
-      },
-      {
-        "field": "quote",
-        "name": "Quote ID",
-        "type": "text"
-      }
-
+      "name",
+      "price",
+      "quantity",
+      "quote"
     ]
   }
 }

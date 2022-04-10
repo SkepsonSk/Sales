@@ -1,0 +1,37 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "price": {
+      "name": "Unit Price",
+      "type": "text"
+    },
+
+    "quantity": {
+      "name": "Quantity",
+      "type": "text"
+    },
+
+    "quote": {
+      "name": "Quote",
+      "type": "relation",
+      "displayField": "quote_name",
+      "related": "quote",
+      "foreignField": "name"
+    }
+  }
+}

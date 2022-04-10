@@ -1,34 +1,13 @@
 {
   "view": {
     "fields": [
-
-      {
-        "field": "account",
-        "name": "Account",
-        "type": "relation",
-
-        "displayField": "account_name",
-
-        "related": "account",
-        "foreignField": "name"
-      }
+      "account"
     ]
   },
   "edit": {
     "fields": [
-
-      {
-        "field": "name",
-        "name": "Name",
-        "type": "text"
-      },
-
-      {
-        "field": "account",
-        "name": "Account",
-        "type": "relation"
-      }
-
+      "name",
+      "account"
     ]
   }
 }

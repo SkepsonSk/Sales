@@ -1,43 +1,16 @@
 {
   "view": {
     "fields": [
-
-      {
-        "field": "firstName",
-        "name": "First Name",
-        "type": "text"
-      },
-      {
-        "field": "lastName",
-        "name": "Last Name",
-        "type": "text"
-      },
-      {
-        "field": "company",
-        "name": "Company Name",
-        "type": "text"
-      }
+      "firstName",
+      "lastName",
+      "company"
     ]
   },
   "edit": {
     "fields": [
-      
-      {
-        "field": "firstName",
-        "name": "First Name",
-        "type": "text"
-      },
-      {
-        "field": "lastName",
-        "name": "Last Name",
-        "type": "text"
-      },
-      {
-        "field": "company",
-        "name": "Company Name",
-        "type": "text"
-      }
-
+      "firstName",
+      "lastName",
+      "company"
     ]
   }
 }

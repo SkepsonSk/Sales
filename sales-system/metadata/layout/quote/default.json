@@ -1,33 +1,14 @@
 {
   "view": {
     "fields": [
-
-      {
-        "field": "opportunity",
-        "name": "Opportunity",
-        "type": "relation",
-        "displayField": "opportunity_name",
-        "related": "opportunity",
-        "foreignField": "name"
-      },
-
-      {
-        "field": "quotePrice",
-        "name": "Total Quote Price",
-        "type": "text"
-      }
-
+      "name",
+      "opportunity",
+      "quotePrice"
     ]
   },
   "edit": {
     "fields": [
-
-      {
-        "field": "name",
-        "name": "Name",
-        "type": "text"
-      }
-
+      "name"
     ]
   }
 }

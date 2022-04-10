@@ -54,11 +54,12 @@ export class ObjectComponent implements OnInit {
     return result;
   }
 
+  //TODO retrieve layout type mapping from record
   retrieveObject(objectName: string | null, objectId: string | null): void {
     this.objectService.retrieveObject(<string>objectName, <string>objectId).subscribe( obj => {
       this.object = obj;
 
-      this.layoutService.retrieveLayout(this.objectName, 'view')
+      this.layoutService.retrieveLayout(this.objectName, 'default', 'view')
         .subscribe( fields => {
           this.objectFields = fields.fields;
         } );

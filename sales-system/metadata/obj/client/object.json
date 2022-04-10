@@ -1,0 +1,34 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "firstName": {
+      "name": "First Name",
+      "type": "text"
+    },
+
+    "lastName": {
+      "name": "Last Name",
+      "type": "text"
+    },
+
+    "company": {
+      "name": "Company Name",
+      "type": "text"
+    }
+  }
+}
