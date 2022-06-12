@@ -5,17 +5,14 @@
 
   <div class="flex flex-col flex-wrap w-full mt-2">
 
-    <div *ngFor="let field of fields; index as i" class="w-1/2">
+    <div *ngFor="let section of layoutSections" class="mb-5">
+      <h3 class="text-xl"> {{section}} </h3>
 
-      <app-edit-text *ngIf="field.type == 'text'"
-                     [fieldData]="field"
-                     [values]="values" (interact)="values[field.field] = $event.text">
-      </app-edit-text>
-      <app-edit-relation *ngIf="field.type == 'relation'"
-                     [fieldData]="field"
-                     [values]="values" (interact)="values[field.field] = $event.text">
-      </app-edit-relation>
-
+      <div *ngFor="let objectField of layoutFields[section]" class="mt-2 w-1/2">
+        <app-input [fieldData]="objectField"
+                   [values]="object">
+        </app-input>
+      </div>
     </div>
 
     <p *ngIf="mode === 'create'" class="mt-5 cursor-pointer" (click)="createObject()"> Create </p>

@@ -11,6 +11,7 @@ router.post('/authenticate', (req, res) => {
         .then( authData => {
             res.json({
                 ok: true,
+                name: authData.name,
                 token: authData.token,
                 refreshToken: authData.refreshToken,
                 expires: {

@@ -1,16 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Field} from "../field";
 
 @Component({
   selector: 'app-relation',
   templateUrl: './relation.component.html',
   styleUrls: ['./relation.component.scss']
 })
-export class RelationComponent implements OnInit {
+export class RelationComponent implements OnInit, Field {
 
-  @Input() field: any;
-  @Input() value: string = '';
-  @Input() relationObjectId: string = '';
-  @Input() relatedTo: string = '';
+  @Input() fieldData: any;
+  @Input() fieldValue: any;
 
   constructor() { }
 

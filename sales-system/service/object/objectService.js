@@ -46,44 +46,50 @@ const retrieve = async (objectName, id, fields = null) => {
 
 const layout = async (objectName, id, layoutName = 'default', type = 'view') => {
     const layoutMetadata = await metadata.read(`layout/${objectName}/${layoutName}.json`);
-    return retrieve2(objectName, id, layoutMetadata[type].fields);
+
+    const fields = [];
+    const layout = layoutMetadata[type];
+    const layoutSections = Object.keys(layout);
+
+    let layoutObject = {};
+
+    layoutSections.forEach( section => {
+        layoutObject[section] = {};
+
+        layout[section].forEach( field => {
+            fields.push(field);
+        } );
+    } );
+
+    return retrieve(objectName, id, fields);
 }
 
 const create = async(objectName, data) => {
     objectName = objectName.toLowerCase();
     triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
 
-    const layoutMetadataObj = await metadata.read(`layout/${objectName}/default.json`);
-    const layoutMetadata = layoutMetadataObj.edit;
+    return new Promise( async (resolve, reject) => {
 
-    const objectValidator = new ObjectValidator(layoutMetadata, data);
-    objectValidator.process();
+        const id = data.id == null ?
+            await idGenerationService.generateID(objectName) :
+            data.id;
 
-    return new Promise( (resolve, reject) => {
-        idGenerationService.generateID(objectName)
-            .then( id => {
+        const keys = Object.keys(data);
 
-                data.id = id;
+        const values = Object.values(data);
+        const fields = keys.join(',');
 
-                const keys = Object.keys(data);
+        let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
 
-                const values = Object.values(data);
-                const fields = keys.join(',');
+        database.runSQLWithParams(sql, values)
+            .then( res => {
+                res.id = id;
 
-                let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
+                triggerEmitter.emit(`${objectName}AfterInsert`, {new: data});
 
-                database.runSQLWithParams(sql, values)
-                    .then( res => {
-                        res.id = id;
-
-                        triggerEmitter.emit(`${objectName}AfterInsert`, {new: data});
-
-                        resolve(res);
-                    } )
-                    .catch( err => reject(err));
-
+                resolve(res);
             } )
-            .catch( err => reject(err) );
+            .catch( err => reject(err));
     } );
 }
 

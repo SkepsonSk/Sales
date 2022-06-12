@@ -1,11 +1,12 @@
 {
   "view": {
-    "fields": [
+    "Related Information": [
+      "name",
       "account"
     ]
   },
   "edit": {
-    "fields": [
+    "Related Information": [
       "name",
       "account"
     ]

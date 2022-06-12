@@ -74,6 +74,10 @@
 
     "contract": {
       "code": 6
+    },
+
+    "user": {
+      "code": 7
     }
 
   }

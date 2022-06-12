@@ -17,7 +17,12 @@ export class ObjectComponent implements OnInit {
 
   objectName: string = '';
   object: any;
+
+  layoutSections!: string[];
+  layoutFields: any;
   objectFields: any;
+
+
   objectId: string = '';
   state: string = '';
 
@@ -60,8 +65,10 @@ export class ObjectComponent implements OnInit {
       this.object = obj;
 
       this.layoutService.retrieveLayout(this.objectName, 'default', 'view')
-        .subscribe( fields => {
-          this.objectFields = fields.fields;
+        .subscribe( layout => {
+
+          this.layoutSections = Object.keys(layout);
+          this.layoutFields = layout;
         } );
 
       this.objectManagement.viewContainerRef.clear();

@@ -1,2 +1,2 @@
-<p class="font-bold"> {{ field.name }} </p>
-<p class="cursor-pointer text-blue-600"> <a [routerLink]="['/object', relatedTo, relationObjectId]"> {{ value }} </a> </p>
+<p class="font-bold"> {{ fieldData.name }} </p>
+<p class="cursor-pointer text-blue-600"> <a [routerLink]="['/object', fieldData.related, fieldValue[fieldData.field]]"> {{ fieldValue[fieldData.displayField] }} </a> </p>

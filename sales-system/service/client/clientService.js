@@ -1,5 +1,6 @@
 const objectService = require('./../object/objectService');
 
+//TODO move to some kind of module
 const convertClient = async (clientId) => {
     const client = await objectService.retrieve('client', clientId);
     if (client == null) {

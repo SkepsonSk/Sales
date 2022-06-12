@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
+const userRouter = require('./routes/user');
 const objectRoute = require('./routes/object');
 const layoutRoute = require('./routes/layout');
 const relationRoute = require('./routes/relation');
@@ -31,6 +32,7 @@ app.use(cors({ origin: dashboardServer, optionsSuccessStatus: 200 }));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+app.use('/user', userRouter);
 app.use('/object', objectRoute);
 app.use('/layout', layoutRoute);
 app.use('/relation', relationRoute);

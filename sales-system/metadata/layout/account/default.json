@@ -1,12 +1,15 @@
 {
   "view": {
-    "fields": [
-      "name",
+    "Identification Information": [
+      "name"
+    ],
+
+    "Record Information": [
       "type"
     ]
   },
   "edit": {
-    "fields": [
+    "Identification Information": [
       "name"
     ]
   }

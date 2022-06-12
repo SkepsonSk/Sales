@@ -26,6 +26,10 @@ import { ToastComponent } from './toast/toast.component';
 import { PathComponent } from './components/general/path/path.component';
 import { OpportunityComponent } from './components/opportunity/opportunity/opportunity.component';
 import { ContractComponent } from './components/contract/contract/contract.component';
+import { InputDirective } from './directives/input.directive';
+import { FieldComponent } from './fields/field/field.component';
+import { FieldDirective } from './directives/field.directive';
+import { InputComponent } from './input/input/input.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,11 @@ import { ContractComponent } from './components/contract/contract/contract.compo
     ToastComponent,
     PathComponent,
     OpportunityComponent,
-    ContractComponent
+    ContractComponent,
+    InputDirective,
+    FieldComponent,
+    FieldDirective,
+    InputComponent
   ],
   imports: [
     BrowserModule,
