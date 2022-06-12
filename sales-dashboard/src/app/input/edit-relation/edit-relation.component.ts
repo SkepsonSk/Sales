@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EditField} from "../edit-field";
 
 @Component({
   selector: 'app-edit-relation',
   templateUrl: './edit-relation.component.html',
   styleUrls: ['./edit-relation.component.scss']
 })
-export class EditRelationComponent implements OnInit {
+export class EditRelationComponent implements OnInit, EditField {
 
   @Input() fieldData: any;
   @Input() values: any;
@@ -18,7 +19,7 @@ export class EditRelationComponent implements OnInit {
   }
 
   handleChange(text: any): void {
-    const emitterBody = { text: text};
-    this.interact.emit(emitterBody);
+    const fieldName = this.fieldData.field;
+    this.values[fieldName] = text;
   }
 }

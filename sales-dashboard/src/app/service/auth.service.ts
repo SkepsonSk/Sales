@@ -66,6 +66,7 @@ export class AuthService {
             const now = new Date().getTime();
 
             observer.next({ok: true});
+            this.username = tokenData.name;
             this.token = tokenData.token;
             this.refreshToken = tokenData.refreshToken;
             this.expiresToken = tokenData.expires.token*1000 + now;

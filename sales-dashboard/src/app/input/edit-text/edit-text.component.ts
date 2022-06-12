@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EditField} from "../edit-field";
 
 @Component({
   selector: 'app-edit-text',
   templateUrl: './edit-text.component.html',
   styleUrls: ['./edit-text.component.scss']
 })
-export class EditTextComponent implements OnInit {
+export class EditTextComponent implements OnInit, EditField {
 
   @Input() fieldData: any;
   @Input() values: any;
@@ -14,11 +15,10 @@ export class EditTextComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   handleChange(text: any): void {
-    const emitterBody = { text: text};
-    this.interact.emit(emitterBody);
+    const fieldName = this.fieldData.field;
+    this.values[fieldName] = text;
   }
 }

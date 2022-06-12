@@ -10,7 +10,7 @@ router.get('/:objectName/:layoutName/:layoutType', async (req, res) => {
 
     const fields = await layoutService.retrieve(objectName, layoutName, layoutType);
 
-    res.json({fields: fields});
+    res.json(fields);
 });
 
 module.exports = router;

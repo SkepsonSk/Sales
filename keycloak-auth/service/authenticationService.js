@@ -1,6 +1,8 @@
 const axios = require('axios');
 const fs = require('fs');
 
+const authUtils = require('./authUtils');
+
 let url = null;
 let authenticationUrl = null;
 
@@ -45,7 +47,7 @@ const authenticate = (username, password) => {
 
     return new Promise( (resolve, reject) => {
         axios.post(authenticationUrl, params, config)
-            .then( authData => {
+            .then( async authData => {
                 const token = authData.data['access_token'];
                 const tokenObject = {
                     expiration: {
@@ -55,8 +57,11 @@ const authenticate = (username, password) => {
                     refreshToken: authData.data['refresh_token']
                 };
 
+                const jwt = authUtils.parseJWT(token);
+
                 TOKENS.set(token, tokenObject);
                 resolve({
+                    name: jwt.name,
                     token: token,
                     refreshToken: authData.data['refresh_token'],
                     expires: {

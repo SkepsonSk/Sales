@@ -23,6 +23,9 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   fields: any;
   values: any = {};
 
+  layoutSections: any;
+  layoutFields: any;
+
   constructor(
     private layoutService: LayoutService,
     private objectService: ObjectService,
@@ -38,11 +41,10 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   retrieveData(objectName: string, objectId: string) {
     this.objectService.retrieveObject(objectName, objectId).subscribe( object => {
       this.layoutService.retrieveLayout(objectName, 'default', 'edit').subscribe( layout => {
-        this.fields = layout.fields;
 
-        this.fields.forEach( (fieldData: any) => {
-          this.values[fieldData.field] = this.mode === 'edit' ? object[fieldData.field] : null;
-        });
+        this.object = object;
+        this.layoutSections = Object.keys(layout);
+        this.layoutFields = layout;
 
         if (this.layoutLoadedCallback !== undefined) {
           this.layoutLoadedCallback(this.fields, this.values);

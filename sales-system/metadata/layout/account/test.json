@@ -1,0 +1,14 @@
+{
+  "view": {
+    "fields": [
+      "name",
+      "type"
+    ]
+  },
+  "edit": {
+    "fields": [
+      "name"
+    ]
+  }
+}
+

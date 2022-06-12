@@ -31,7 +31,7 @@ export class ObjectService {
         .set('Authorization', `Bearer ${this.authService.getToken()}`)
     }
 
-    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}`, header);
+    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}/default/view`, header);
   }
 
   retrieveObjectForEdit(objectName: string, objectId: string): Observable<any> {

@@ -10,6 +10,15 @@ import {ClientComponent} from "./components/client/client/client.component";
 import {ToastService} from "./service/toast.service";
 import {OpportunityComponent} from "./components/opportunity/opportunity/opportunity.component";
 import {ContractComponent} from "./components/contract/contract/contract.component";
+import {FieldService} from "./service/field.service";
+import {FieldComponent} from "./fields/field/field.component";
+import {TextComponent} from "./fields/text/text.component";
+import {BaseField} from "./fields/base-field";
+import {RelationComponent} from "./fields/relation/relation.component";
+import {InputService} from "./service/input.service";
+import {EditTextComponent} from "./input/edit-text/edit-text.component";
+import {BaseEditField} from "./input/base-edit-field";
+import {EditRelationComponent} from "./input/edit-relation/edit-relation.component";
 
 @Component({
   selector: 'app-root',
@@ -28,6 +37,8 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private objectComponentService: ObjectComponentService,
+    private fieldService: FieldService,
+    private inputService: InputService,
     private modalService: ModalService
   ) {}
 
@@ -38,6 +49,12 @@ export class AppComponent {
     this.objectComponentService.registerComponent('client', new BaseObject(ClientComponent));
     this.objectComponentService.registerComponent('opportunity', new BaseObject(OpportunityComponent));
     this.objectComponentService.registerComponent('contract', new BaseObject(ContractComponent));
+
+    this.fieldService.registerComponent('text', new BaseField(TextComponent));
+    this.fieldService.registerComponent('relation', new BaseField(RelationComponent));
+
+    this.inputService.registerComponent('text', new BaseEditField(EditTextComponent));
+    this.inputService.registerComponent('relation', new BaseEditField(EditRelationComponent));
 
     this.modalService.getData().subscribe( modalData => {
       if (modalData.modalVisible) {
