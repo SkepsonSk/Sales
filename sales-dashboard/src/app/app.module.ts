@@ -30,6 +30,7 @@ import { InputDirective } from './directives/input.directive';
 import { FieldComponent } from './fields/field/field.component';
 import { FieldDirective } from './directives/field.directive';
 import { InputComponent } from './input/input/input.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { InputComponent } from './input/input/input.component';
     InputDirective,
     FieldComponent,
     FieldDirective,
-    InputComponent
+    InputComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

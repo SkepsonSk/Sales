@@ -24,6 +24,16 @@ export class ObjectService {
     return this.http.get(`${apiUrl}/object/${objectName}`, header);
   }
 
+  search(searchPhrase: string): Observable<any> {
+    const apiUrl = environment.apiUrl;
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.get(`${apiUrl}/search?phrase=${searchPhrase}`, header);
+  }
+
   retrieveObject(objectName: string, objectId: string): Observable<any> {
     const apiUrl = environment.apiUrl;
     const header = {

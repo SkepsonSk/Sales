@@ -5,6 +5,7 @@ const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
 const ObjectQueryBuilder = require('./objectQueryBuilder');
+const ObjectSearchBuilder = require('./objectSearchBuilder');
 const ObjectValidator = require('./objectValidator');
 
 const metadata = require('./../../metadata/metadata');
@@ -12,10 +13,13 @@ const metadata = require('./../../metadata/metadata');
 const list = (objectName) => {
     let sql = `SELECT * FROM ${objectName}`;
 
-    return new Promise( (resolve, reject) => {
-        database.runSQL(sql)
-            .then( res => resolve(res) )
-            .catch( err => reject(err) );
+    return new Promise( async (resolve, reject) => {
+        try {
+            const res = await database.transaction([{sql: sql}]);
+            resolve(res[0][0]);
+        } catch (e) {
+            reject(e);
+        }
     } );
 }
 
@@ -31,17 +35,20 @@ const retrieve = async (objectName, id, fields = null) => {
     });
 
     const sql = objectQueryBuilder.toSQL();
-
     return new Promise( async (resolve, reject) => {
-
         try {
             const results = await database.transaction([{sql: sql}]);
             resolve(results[0][0][0]);
         } catch (e) {
             reject(e);
         }
-
     } );
+}
+
+const search = async (search) => {
+    const objectSearchBuilder = new ObjectSearchBuilder();
+    await objectSearchBuilder.retrieveMetadata();
+    return objectSearchBuilder.performSearch(search);
 }
 
 const layout = async (objectName, id, layoutName = 'default', type = 'view') => {
@@ -64,6 +71,8 @@ const layout = async (objectName, id, layoutName = 'default', type = 'view') => 
     return retrieve(objectName, id, fields);
 }
 
+//TODO fix to transaction
+//TODO add id
 const create = async(objectName, data) => {
     objectName = objectName.toLowerCase();
     triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
@@ -75,13 +84,22 @@ const create = async(objectName, data) => {
             data.id;
 
         const keys = Object.keys(data);
-
-        const values = Object.values(data);
+        const values = Object.values(data).map( v => `'${v}'` ).join(',');
         const fields = keys.join(',');
 
-        let sql = `INSERT INTO ${objectName} (${fields}) VALUES (?)`;
+        let sql = `INSERT INTO ${objectName} (${fields}) VALUES (${values})`;
 
-        database.runSQLWithParams(sql, values)
+        try {
+            let res = await database.transaction([{sql: sql}]);
+            res[0][0].id = id;
+            triggerEmitter.emit(`${objectName}AfterInsert`, {new: data});
+            resolve(res[0][0]);
+        } catch (e) {
+            return reject(e);
+        }
+
+
+        /*database.runSQLWithParams(sql, values)
             .then( res => {
                 res.id = id;
 
@@ -89,10 +107,11 @@ const create = async(objectName, data) => {
 
                 resolve(res);
             } )
-            .catch( err => reject(err));
+            .catch( err => reject(err));*/
     } );
 }
 
+//TODO fix to transaction
 const update = async (objectName, id, data) => {
     const oldObject = await retrieve(objectName, id);
     objectName = objectName.toLowerCase();
@@ -114,6 +133,7 @@ const update = async (objectName, id, data) => {
 
 }
 
+//TODO fix to transaction
 const remove = async (objectName, id) => {
     const oldObject = await retrieve(objectName, id);
 
@@ -126,7 +146,6 @@ const remove = async (objectName, id) => {
 
         database.runSQL(sql)
             .then( res => {
-                console.log(`${objectName}AfterRemove`);
                 triggerEmitter.emit(`${objectName}AfterRemove`, { old: oldObject});
                 resolve(res);
             } )
@@ -149,6 +168,7 @@ const retrieveObjectNames = () => {
 
 exports.list = list;
 exports.retrieve = retrieve;
+exports.search = search;
 exports.layout = layout;
 exports.create = create;
 exports.update = update;

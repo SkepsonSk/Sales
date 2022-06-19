@@ -15,7 +15,6 @@ router.get('/:objectName', (req, res) => {
                 .catch( err => res.status(500).json(err) );
         } )
         .catch( err => {
-            console.log(err);
             res.status(err.response.status).json({error: err.response.data.error});
         });
 });
@@ -59,7 +58,7 @@ router.get('/:objectName/:objectId/:layoutName/:type', (req, res) => {
 });
 
 /* Deprecated */
-router.get('/:objectName/:objectId/edit', (req, res) => {
+/*router.get('/:objectName/:objectId/edit', (req, res) => {
     const objectName = req.params.objectName;
     const objectId = req.params.objectId;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
@@ -73,7 +72,7 @@ router.get('/:objectName/:objectId/edit', (req, res) => {
         .catch( err => {
             res.status(err.response.status).json({error: err.response.data.error});
         });
-});
+});*/
 
 router.post('/:objectName', (req, res) => {
     const data = req.body;

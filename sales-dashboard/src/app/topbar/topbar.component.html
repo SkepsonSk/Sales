@@ -1,24 +1,40 @@
 <div class="shadow-md w-full pl-3 pt-2 pr-3">
 
-  <div class="flex items-center">
+  <div class="flex items-center justify-between w-full pb-2">
     <h1 class="text-2xl"> Sales </h1>
 
-    <p class="ml-auto"> {{ getUsername() }} </p>
+    <form class="w-1/2"
+          (submit)="handleSearchFormSubmit()">
+      <div class="shadow p-1 rounded w-full flex justify-between">
+        <input class="outline-none ml-5"
+               placeholder="Search the whole system ..."
+               type="text" (change)="handleSearchInput($any($event.target).value)">
+        <input type="image" src="assets/icon/search.svg"
+               alt="Submit Form"
+               style="width: 30px; height: 30px" />
+      </div>
 
+    </form>
+
+    <p> {{ getUsername() }} </p>
   </div>
 
-  <div class="flex mt-2">
+  <div class="flex mt-2 pb-2 items-center">
+    <img style="width: 30px; height: 30px;"
+         class="mr-5 cursor-pointer"
+         src="/assets/icon/apps.svg" alt="APPS"/>
+
     <a class="cursor-pointer"
        [ngClass]="{ 'font-bold': getCurrentPage() == 'home' }"
        (click)="navigateHome()">
-      Home
+      HOME
     </a>
 
     <a class="cursor-pointer ml-5"
        *ngFor="let objectName of objectNames; let i = index"
        [ngClass]="{ 'font-bold': getCurrentPage() == objectName }"
        (click)="navigateObject(objectName)">
-      {{ firstCharUpper(objectName) }}
+      {{ objectName.toUpperCase() }}
     </a>
   </div>
 

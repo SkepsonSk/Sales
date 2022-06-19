@@ -130,6 +130,7 @@ const transaction = ( queries ) => {
             }
 
             await conn.commit();
+            await conn.release();
             resolve(results);
         } catch (e) {
             reject(e);

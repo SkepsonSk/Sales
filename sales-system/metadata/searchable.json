@@ -1,0 +1,10 @@
+{
+  "searchable": [
+    "account",
+    "contact",
+    "contract",
+    "opportunity",
+    "client",
+    "user"
+  ]
+}

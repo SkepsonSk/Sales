@@ -1,0 +1,18 @@
+<div *ngIf="objectsFound" class="m-3 mt-5">
+  <h2 class="text-2xl mb-10"> Search results for phrase: {{this.phrase}} </h2>
+
+  <div *ngFor="let object of objectsFound">
+    <h2 class="text-xl"> {{object.toUpperCase()}} </h2>
+
+    <table class="w-full mt-5 mb-5">
+      <tr class="bg-gray-200 text-left">
+        <th class="p-2"> Name </th>
+      </tr>
+      <tr *ngFor="let record of recordsFound[object]"
+          class="border-solid border-b-2 border-gray-100">
+        <td class="pl-2 pt-1 pb-1"> <a [routerLink]="['/object', record.object, record.id]"> {{ record.name }} </a> </td>
+      </tr>
+    </table>
+
+  </div>
+</div>

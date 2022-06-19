@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const userRouter = require('./routes/user');
 const objectRoute = require('./routes/object');
+const searchRoute = require('./routes/search');
 const layoutRoute = require('./routes/layout');
 const relationRoute = require('./routes/relation');
 const pathRoute = require('./routes/path');
@@ -34,6 +35,7 @@ app.use(express.json());
 
 app.use('/user', userRouter);
 app.use('/object', objectRoute);
+app.use('/search', searchRoute);
 app.use('/layout', layoutRoute);
 app.use('/relation', relationRoute);
 app.use('/path', pathRoute);
