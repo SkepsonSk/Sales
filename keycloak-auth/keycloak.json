@@ -1,6 +1,6 @@
 {
   "realm": "ElementalShards",
-  "auth-server-url": "http://localhost:8180/auth/",
+  "auth-server-url": "http://54.38.53.128/auth/",
   "ssl-required": "external",
   "resource": "web-app",
   "verify-token-audience": true,
