@@ -10,7 +10,7 @@
     <div *ngIf="relationRecords != null && relationRecords.length > 0">
 
       <div class="flex mt-2">
-        <p *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> {{ fieldName }} </p>
+        <p class="font-bold" *ngFor="let fieldName of relationFields" [style.width.%]="fieldWidth"> {{ getFieldDisplayName(fieldName) }} </p>
       </div>
 
       <div *ngFor="let relationRecord of relationRecords; index as i"

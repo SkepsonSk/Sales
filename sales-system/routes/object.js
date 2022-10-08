@@ -4,6 +4,22 @@ const router = express.Router();
 const objectService = require('./../service/object/objectService');
 const authorizationService = require('./../service/object/authorizationService');
 
+router.get('/:objectName/metadata', (req, res) => {
+    const objectName = req.params.objectName;
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
+
+    authorizationService.permitted([`Object#view`], authorizationHeader)
+        .then( () =>{
+            objectService.retrieveMetadata(objectName,)
+                .then( data => res.json(data))
+                .catch( err => res.status(500).json(err) );
+        } )
+        .catch( err => {
+            console.log(err);
+            res.status(err.response.status).json({error: err.response.data.error});
+        });
+})
+
 router.get('/:objectName', (req, res) => {
     const objectName = req.params.objectName;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';

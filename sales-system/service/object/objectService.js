@@ -10,6 +10,10 @@ const ObjectValidator = require('./objectValidator');
 
 const metadata = require('./../../metadata/metadata');
 
+const retrieveMetadata = async (objectName) => {
+    return await metadata.read(`obj/${objectName}/object.json`);
+}
+
 const list = (objectName) => {
     let sql = `SELECT * FROM ${objectName}`;
 
@@ -166,6 +170,7 @@ const retrieveObjectNames = () => {
     } );
 }
 
+exports.retrieveMetadata = retrieveMetadata;
 exports.list = list;
 exports.retrieve = retrieve;
 exports.search = search;

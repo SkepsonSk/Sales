@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RelationsService} from "../service/relations.service";
+import {ObjectService} from "../object.service";
 
 @Component({
   selector: 'app-relations',
@@ -15,6 +16,7 @@ export class RelationsComponent implements OnInit {
 
   @Output() clicked = new EventEmitter<any>();
 
+  objectMetadata: any;
   initialized = false;
 
   relationTitle: string = '';
@@ -25,7 +27,8 @@ export class RelationsComponent implements OnInit {
   fieldWidth: number = 0;
 
   constructor(
-    private relationService: RelationsService
+    private relationService: RelationsService,
+    private objectService: ObjectService
   ) {}
 
   ngOnInit(): void {
@@ -39,21 +42,28 @@ export class RelationsComponent implements OnInit {
   }
 
   loadData() {
-    this.relationService.retrieveObjects(
-      this.objectName,
-      this.relationName,
-      this.objectId)
-      .subscribe( relation => {
+    this.objectService.retrieveObjectMetadata(this.objectName)
+      .subscribe( metadata => {
+        this.objectMetadata = metadata;
+        this.relationService.retrieveObjects(
+          this.objectName,
+          this.relationName,
+          this.objectId)
+          .subscribe( relation => {
+            this.relationTitle = relation.title;
+            this.relationRecords = relation.results;
+            this.relationFields = relation.fields;
+            this.relationObjectName = relation.objectName;
+            this.relatedField = relation.relatedField;
+            this.fieldWidth = 100/relation.fields.length;
 
-        this.relationTitle = relation.title;
-        this.relationRecords = relation.results;
-        this.relationFields = relation.fields;
-        this.relationObjectName = relation.objectName;
-        this.relatedField = relation.relatedField;
-        this.fieldWidth = 100/relation.fields.length;
-
-        this.initialized = true;
+            this.initialized = true;
+          } );
       } );
+  }
+
+  getFieldDisplayName(fieldName: string) {
+    return this.objectMetadata.fields[fieldName].name;
   }
 
   firstLetterLow = (text: string) => {
