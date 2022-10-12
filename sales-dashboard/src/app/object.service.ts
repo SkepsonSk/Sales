@@ -54,6 +54,16 @@ export class ObjectService {
     return this.http.get(`${apiUrl}/object/${objectName}/metadata`, header);
   }
 
+  retrieveObjectActions(objectName: string): Observable<any> {
+    const apiUrl = environment.apiUrl;
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    return this.http.get(`${apiUrl}/object/${objectName}/actions`, header);
+  }
+
   createObject(objectName: string, objectData: any): Observable<any> {
     const apiUrl = environment.apiUrl;
     const header = {

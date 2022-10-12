@@ -31,6 +31,7 @@ import { FieldComponent } from './fields/field/field.component';
 import { FieldDirective } from './directives/field.directive';
 import { InputComponent } from './input/input/input.component';
 import { SearchComponent } from './search/search.component';
+import { SpecialComponent } from './components/special/special.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { SearchComponent } from './search/search.component';
     FieldComponent,
     FieldDirective,
     InputComponent,
-    SearchComponent
+    SearchComponent,
+    SpecialComponent
   ],
   imports: [
     BrowserModule,

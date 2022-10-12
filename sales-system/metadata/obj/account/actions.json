@@ -1,0 +1,14 @@
+{
+  "actions": {
+
+    "Mark Special": {
+      "type": "component",
+      "component": "special"
+    },
+
+    "Go to Page": {
+      "type": "url",
+      "url": "https://www.facebook.com/"
+    }
+  }
+}
