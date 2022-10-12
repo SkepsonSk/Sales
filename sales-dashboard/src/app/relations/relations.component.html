@@ -1,8 +1,8 @@
-<div class="mt-2">
+<div class="mt-2 shadow-md p-2">
 
   <div class="flex items-center w-full">
-    <h4> {{ relationTitle }} </h4>
-    <p class="ml-auto cursor-pointer" (click)="fireClickNewEvent()"> New </p>
+    <h4 class="text-xl"> {{ relationTitle }} </h4>
+    <p class="ml-auto cursor-pointer border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors" (click)="fireClickNewEvent()"> New </p>
   </div>
 
   <div class="flex flex-col w-full">
@@ -15,16 +15,16 @@
 
       <div *ngFor="let relationRecord of relationRecords; index as i"
            [ngClass]="{ 'bg-gray-200' : i%2 == 0 }"
-           class="flex w-full relative p-1" >
+           class="flex w-full relative p-2 mt-2">
 
         <div *ngFor="let fieldName of relationFields; let i = index" [style.width.%]="fieldWidth">
           <p *ngIf="i == 0"> <a [routerLink]="['/object', firstLetterLow(relationObjectName), relationRecord.Id]"> {{ relationRecord[fieldName] }} </a> </p>
           <p *ngIf="i != 0">{{ relationRecord[fieldName] }} </p>
         </div>
 
-        <div class="flex absolute right-0 mr-1">
-          <p class="mr-1 cursor-pointer" (click)="fireClickEditEvent(relationRecord)"> Edit </p>
-          <p class="cursor-pointer" (click)="fireClickDeleteEvent(relationRecord)"> Delete </p>
+        <div class="flex absolute right-0 top-0 mt-1 mr-1">
+          <p class="mr-1 cursor-pointer border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow bg-white text-gray-500 hover:bg-gray-500 hover:text-white transition-colors" (click)="fireClickEditEvent(relationRecord)"> Edit </p>
+          <p class="cursor-pointer border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow bg-white text-gray-500 hover:bg-gray-500 hover:text-white transition-colors" (click)="fireClickDeleteEvent(relationRecord)"> Delete </p>
         </div>
       </div>
     </div>

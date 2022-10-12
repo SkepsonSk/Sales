@@ -20,6 +20,23 @@ router.get('/:objectName/metadata', (req, res) => {
         });
 })
 
+router.get('/:objectName/actions', (req, res) => {
+    const objectName = req.params.objectName;
+    const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
+
+    authorizationService.permitted([`Object#view`], authorizationHeader)
+        .then( () =>{
+            objectService.retrieveActions(objectName,)
+                .then( data => res.json(data))
+                .catch( err => res.status(500).json(err) );
+        } )
+        .catch( err => {
+            console.log(err);
+            res.status(err.response.status).json({error: err.response.data.error});
+        });
+})
+
+
 router.get('/:objectName', (req, res) => {
     const objectName = req.params.objectName;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';

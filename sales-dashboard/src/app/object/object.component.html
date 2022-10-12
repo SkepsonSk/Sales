@@ -1,11 +1,20 @@
 <div class="ml-3 mr-3 mt-5">
 
   <div class="flex items-center">
-    <h1 class="text-2xl" *ngIf="object !== undefined"> {{ object.name }} </h1>
+    <h1 class="text-3xl" *ngIf="object !== undefined"> {{ object.name }} </h1>
 
     <div class="flex ml-auto">
-      <p class="cursor-pointer ml-3" (click)="sendEditObjectRequest(objectName, objectId)"> Edit </p>
-      <p class="cursor-pointer ml-3" (click)="sendDeleteObjectRequest(objectName, objectId)"> Delete </p>
+      <p class="cursor-pointer ml-3 border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors"
+         (click)="sendEditObjectRequest(objectName, objectId)"> Edit </p>
+      <p class="cursor-pointer ml-3 border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors"
+         (click)="sendDeleteObjectRequest(objectName, objectId)"> Delete </p>
+
+      <p *ngFor="let action of actionNames"
+         class="cursor-pointer ml-3 border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors"
+         (click)="handleAction(action)">
+        {{ action }}
+      </p>
+
     </div>
   </div>
 
@@ -60,7 +69,7 @@
   </div>
 
   <div class="mt-5" *ngIf="relations != null && relations.length != 0">
-    <h3 class="text-xl"> Related </h3>
+    <h3 class="text-2xl"> Related </h3>
 
     <div *ngFor="let relationName of relations">
       <app-relations [relationName]="relationName"

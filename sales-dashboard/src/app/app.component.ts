@@ -19,6 +19,8 @@ import {InputService} from "./service/input.service";
 import {EditTextComponent} from "./input/edit-text/edit-text.component";
 import {BaseEditField} from "./input/base-edit-field";
 import {EditRelationComponent} from "./input/edit-relation/edit-relation.component";
+import {SpecialComponent} from "./components/special/special.component";
+import {ActionService} from "./actions/action.service";
 
 @Component({
   selector: 'app-root',
@@ -39,7 +41,7 @@ export class AppComponent {
     private objectComponentService: ObjectComponentService,
     private fieldService: FieldService,
     private inputService: InputService,
-    private modalService: ModalService
+    private modalService: ModalService,
   ) {}
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class AppComponent {
     this.objectComponentService.registerComponent('client', new BaseObject(ClientComponent));
     this.objectComponentService.registerComponent('opportunity', new BaseObject(OpportunityComponent));
     this.objectComponentService.registerComponent('contract', new BaseObject(ContractComponent));
+    this.objectComponentService.registerComponent('special', new BaseObject(SpecialComponent));
 
     this.fieldService.registerComponent('text', new BaseField(TextComponent));
     this.fieldService.registerComponent('relation', new BaseField(RelationComponent));

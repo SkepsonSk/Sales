@@ -7,6 +7,7 @@ import {BaseObjectComponent} from "../base-object.component";
 import {ModalService} from "../modal-service.service";
 import {RelationsService} from "../service/relations.service";
 import {LayoutService} from "../layout.service";
+import {ActionService} from "../actions/action.service";
 
 @Component({
   selector: 'app-object',
@@ -17,6 +18,9 @@ export class ObjectComponent implements OnInit {
 
   objectName: string = '';
   object: any;
+
+  actionNames: string[] = [];
+  actions: any;
 
   layoutSections!: string[];
   layoutFields: any;
@@ -38,6 +42,7 @@ export class ObjectComponent implements OnInit {
     private objectComponentService: ObjectComponentService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private modalService: ModalService,
+    private actionService: ActionService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
@@ -71,8 +76,13 @@ export class ObjectComponent implements OnInit {
           this.layoutFields = layout;
         } );
 
-      this.objectManagement.viewContainerRef.clear();
+      this.objectService.retrieveObjectActions(this.objectName)
+        .subscribe( actionsData => {
+          this.actionNames = Object.keys(actionsData.actions);
+          this.actions = actionsData.actions;
+        } );
 
+      this.objectManagement.viewContainerRef.clear();
       const objComponent = this.objectComponentService.getComponent(this.objectName);
       if (objComponent != null) {
         const component = this.objectManagement.viewContainerRef.createComponent<BaseObjectComponent>(objComponent.component);
@@ -86,6 +96,12 @@ export class ObjectComponent implements OnInit {
     this.relationService.retrieveRelations(objectName).subscribe( relations => {
       this.relations = relations;
     } );
+  }
+
+  handleAction(actionName: string) {
+    const action = this.actions[actionName];
+    const actionType = this.actionService.getActionType(action.type);
+    actionType?.handle(action, this.objectName, this.objectId);
   }
 
   sendCreateObjectRequestForRelated(objectName: string | null, relatedField: string) {

@@ -6,6 +6,9 @@ module.exports = {
       backgroundColor: theme => ({
         'black-opacity': 'rgba(0, 0, 0, 0.75)'
       }),
+      borderWidth: {
+        '1': '1px'
+      }
     },
   },
   variants: {

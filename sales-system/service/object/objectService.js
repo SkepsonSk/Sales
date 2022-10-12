@@ -14,6 +14,10 @@ const retrieveMetadata = async (objectName) => {
     return await metadata.read(`obj/${objectName}/object.json`);
 }
 
+const retrieveActions = async (objectName) => {
+    return await metadata.read(`obj/${objectName}/actions.json`);
+}
+
 const list = (objectName) => {
     let sql = `SELECT * FROM ${objectName}`;
 
@@ -171,6 +175,7 @@ const retrieveObjectNames = () => {
 }
 
 exports.retrieveMetadata = retrieveMetadata;
+exports.retrieveActions = retrieveActions;
 exports.list = list;
 exports.retrieve = retrieve;
 exports.search = search;
