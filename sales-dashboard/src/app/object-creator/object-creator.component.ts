@@ -4,6 +4,7 @@ import {ObjectService} from "../object.service";
 import {BaseObjectComponent} from "../base-object.component";
 import {catchError, of} from "rxjs";
 import {ToastService} from "../service/toast.service";
+import {ObjectUtils} from "../utils/object.utils";
 
 @Component({
   selector: 'app-object-creator',
@@ -16,12 +17,14 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   @Input() objectName: string = '';
   @Input() objectId: string = '';
   @Input() object: any;
-  @Input() layoutLoadedCallback: ((fields: any, values: any) => void) | undefined ;
+  @Input() layoutLoadedCallback: ((dataObject: any) => void) | undefined ;
   @Input() afterResponse: ((response: any) => void) | undefined;
 
   objectTitle: string = '';
   fields: any;
   values: any = {};
+
+  dataObject: any = {};
 
   layoutSections: any;
   layoutFields: any;
@@ -29,7 +32,9 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   constructor(
     private layoutService: LayoutService,
     private objectService: ObjectService,
-    private toastService: ToastService
+    private toastService: ToastService,
+
+    private objectUtils: ObjectUtils
   ) {}
 
   ngOnInit(): void {
@@ -41,20 +46,21 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   retrieveData(objectName: string, objectId: string) {
     this.objectService.retrieveObject(objectName, objectId).subscribe( object => {
       this.layoutService.retrieveLayout(objectName, 'default', 'edit').subscribe( layout => {
-
         this.object = object;
+        this.dataObject = this.objectUtils.getObjectFromLayout(this.object, layout);
+
         this.layoutSections = Object.keys(layout);
         this.layoutFields = layout;
 
         if (this.layoutLoadedCallback !== undefined) {
-          this.layoutLoadedCallback(this.fields, this.values);
+          this.layoutLoadedCallback(this.dataObject);
         }
       } );
     } )
   }
 
   createObject() {
-    this.objectService.createObject(this.objectName, this.values)
+    this.objectService.createObject(this.objectName, this.dataObject)
       .subscribe(
         creationResult => {
 
@@ -65,7 +71,6 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
         },
 
         err => {
-          console.log(err);
 
           const errorMessage = err.error?.error != null ? err.error.error : 'An error occurred.';
           this.toastService.showToast('error', errorMessage);
@@ -73,7 +78,7 @@ export class ObjectCreatorComponent implements BaseObjectComponent, OnInit {
   }
 
   editObject() {
-    this.objectService.editObject(this.objectName, this.objectId, this.values)
+    this.objectService.editObject(this.objectName, this.objectId, this.dataObject)
       .subscribe(
         creationResult => {
 

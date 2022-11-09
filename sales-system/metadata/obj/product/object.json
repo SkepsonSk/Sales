@@ -1,0 +1,24 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "price": {
+      "type": "text",
+      "name": "Price"
+    }
+  }
+}

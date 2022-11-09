@@ -31,7 +31,11 @@ import { FieldComponent } from './fields/field/field.component';
 import { FieldDirective } from './directives/field.directive';
 import { InputComponent } from './input/input/input.component';
 import { SearchComponent } from './search/search.component';
-import { SpecialComponent } from './components/special/special.component';
+import { CreateQuoteComponent } from './components/account/create-quote/create-quote.component';
+import { SpinnerComponent } from './components/general/spinner/spinner.component';
+import { CreateContractComponent } from './components/opportunity/create-contract/create-contract.component';
+import { ObjectMenuComponent } from './object-menu/object-menu.component';
+import { AutoFocusInputDirective } from './directives/auto-focus-input.directive';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,11 @@ import { SpecialComponent } from './components/special/special.component';
     FieldDirective,
     InputComponent,
     SearchComponent,
-    SpecialComponent
+    CreateQuoteComponent,
+    SpinnerComponent,
+    CreateContractComponent,
+    ObjectMenuComponent,
+    AutoFocusInputDirective
   ],
   imports: [
     BrowserModule,

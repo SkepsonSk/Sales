@@ -1,3 +1,5 @@
+const queryString = require('querystring');
+
 const express = require('express');
 const router = express.Router();
 
@@ -40,10 +42,11 @@ router.get('/:objectName/actions', (req, res) => {
 router.get('/:objectName', (req, res) => {
     const objectName = req.params.objectName;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';
+    const query = req.query.query ? queryString.unescape(req.query.query) : null;
 
     authorizationService.permitted([`Object#view`], authorizationHeader)
         .then( () =>{
-            objectService.list(objectName)
+            objectService.list(objectName, query)
                 .then( data => res.json(data) )
                 .catch( err => res.status(500).json(err) );
         } )
@@ -192,7 +195,8 @@ router.delete('/:objectName/:objectId', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    objectService.retrieveObjectNames()
+    const objectName = req.query.objectName;
+    objectService.retrieveObjectNames(objectName)
         .then( objectNames => res.json(objectNames) )
         .catch(err => res.status(500).json({ok: false, error: err}));
 })

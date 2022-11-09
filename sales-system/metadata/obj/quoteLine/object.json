@@ -32,6 +32,14 @@
       "displayField": "quote_name",
       "related": "quote",
       "foreignField": "name"
+    },
+
+    "product": {
+      "name": "Product",
+      "type": "relation",
+      "displayField": "product_name",
+      "related": "product",
+      "foreignField": "name"
     }
   }
 }

@@ -1,14 +1,24 @@
 {
   "view": {
-    "fields": [
+    "Identification Information": [
       "name",
+      "type"
+    ],
+
+    "Related Information": [
       "opportunity",
-      "status"
+      "quote"
     ]
   },
   "edit": {
-    "fields": [
-      "name"
+    "Identification Information": [
+      "name",
+      "type"
+    ],
+
+    "Related Information": [
+      "opportunity",
+      "quote"
     ]
   }
 }

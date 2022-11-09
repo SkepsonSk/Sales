@@ -2,13 +2,18 @@ const fs = require('fs');
 const mysql = require('mysql');
 const mysql2 = require('mysql2/promise');
 
-const configure = (host, user, password, database) => {
+const setDataSource = (dataSource) => {
+    this.dataSource = dataSource;
+}
+
+const configure = (host, user, password, database, port = 3306) => {
     this.pool = mysql.createPool({
         connectionLimit: 10,
         host: host,
         user: user,
         password: password,
-        database: database
+        database: database,
+        port: port
     });
 
     this.pool2 = mysql2.createPool({
@@ -16,8 +21,11 @@ const configure = (host, user, password, database) => {
         host: host,
         user: user,
         password: password,
-        database: database
+        database: database,
+        port: port
     });
+
+    this.dataSource = this.pool2;
 }
 
 const runSchema = (sqlFile) => {
@@ -118,7 +126,7 @@ const transaction = ( queries ) => {
     return new Promise( async(resolve, reject) => {
 
         try {
-            const conn = await this.pool2.getConnection();
+            const conn = await this.dataSource.getConnection();
 
             await conn.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
             await conn.beginTransaction();
@@ -138,6 +146,7 @@ const transaction = ( queries ) => {
     } );
 }
 
+exports.setDataSource = setDataSource;
 exports.configure = configure;
 exports.runSQL = runSQL;
 exports.runSQLWithParams = runSQLWithParams;

@@ -1,0 +1,22 @@
+{
+  "view": {
+    "Base Information": [
+      "name",
+      "type"
+    ],
+
+    "Pricing": [
+      "price"
+    ]
+  },
+  "edit": {
+    "Base Information": [
+      "name",
+      "type"
+    ],
+
+    "Pricing": [
+      "price"
+    ]
+  }
+}

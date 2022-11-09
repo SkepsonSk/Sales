@@ -1,25 +1,38 @@
 const objectService = require('./../service/object/objectService');
+const Trigger = require('./triggerCore/trigger');
 
-objectService.triggerEmitter.on('quotelineAfterInsert', async objectData => {
-    const quoteId = objectData.new.quote;
-    const price = objectData.new.price * objectData.new.quantity;
+module.exports = class QuoteLineTrigger extends Trigger {
 
-    const quote = await objectService.retrieve('quote', quoteId);
+    async beforeInsert(newObject) {
+        const product = await objectService.retrieve('product', newObject.product, ['name', 'price']);
 
-    const quoteToUpdate = {
-        quotePrice: quote.quotePrice + price
-    };
-    await objectService.update('quote', quoteId, quoteToUpdate);
-});
+        newObject.name = product.name;
+        newObject.price = product.price;
 
-objectService.triggerEmitter.on('quotelineAfterRemove', async objectData => {
-    const quoteId = objectData.old.quote;
-    const price = objectData.old.price * objectData.old.quantity;
+        return Promise.resolve();
+    }
 
-    const quote = await objectService.retrieve('quote', quoteId);
+    async afterInsert(newObject) {
+        const quoteId = newObject.quote;
+        const price = newObject.price * newObject.quantity;
 
-    const quoteToUpdate = {
-        quotePrice: quote.quotePrice - price
-    };
-    await objectService.update('quote', quoteId, quoteToUpdate);
-});
+        const quote = await objectService.retrieve('quote', quoteId);
+
+        const quoteToUpdate = {
+            quotePrice: parseFloat(quote.quotePrice) + price
+        };
+        await objectService.update('quote', quoteId, quoteToUpdate);
+    }
+
+    async afterRemove(oldObject) {
+        const quoteId = oldObject.quote;
+        const price = oldObject.price * oldObject.quantity;
+
+        const quote = await objectService.retrieve('quote', quoteId);
+
+        const quoteToUpdate = {
+            quotePrice: parseFloat(quote.quotePrice) - price
+        };
+        await objectService.update('quote', quoteId, quoteToUpdate);
+    }
+}

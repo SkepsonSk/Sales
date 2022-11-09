@@ -71,9 +71,10 @@
   <div class="mt-5" *ngIf="relations != null && relations.length != 0">
     <h3 class="text-2xl"> Related </h3>
 
-    <div *ngFor="let relationName of relations">
+    <div *ngFor="let relationName of relationNames">
       <app-relations [relationName]="relationName"
                      [objectName]="objectName"
+                     [relationObject]="relations[relationName].objectName"
                      [objectId]="objectId"
                      [state]="state"
                      (clicked)="handleRelationClicked($event)">

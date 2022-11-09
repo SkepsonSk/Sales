@@ -14,6 +14,7 @@ export class PathComponent implements OnInit {
   @Input() pathName: string = '';
   @Input() fieldName: string = '';
   @Input() objectData: any;
+  @Input() objectName: string = '';
 
   pathData: PathData[] = [];
   currentIndex: number = 0;
@@ -25,16 +26,21 @@ export class PathComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadPath();
+    this.loadData().then(_ => {});
   }
 
-  loadPath() {
-    this.pathService.getPathData(this.pathName)
-      .subscribe( pathData => {
-        this.pathData = pathData;
-        this.determineCurrentIndex();
+  async loadData() {
+    this.objectService.retrieveObjectFields(this.objectName, this.objectData.id, [this.fieldName])
+      .subscribe( objectData => {
+        this.objectData = objectData;
+        this.pathService.getPathData(this.pathName)
+          .subscribe( pathData => {
+            this.pathData = pathData;
+            this.determineCurrentIndex();
+          } );
       } );
   }
+
 
   determineCurrentIndex(): void {
     this.currentIndex = 0;

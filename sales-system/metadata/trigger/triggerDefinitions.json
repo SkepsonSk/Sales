@@ -1,19 +1,13 @@
 {
     "triggers": [
         {
-            "name": "accountTrigger",
-            "active": false
-        },
-        {
-            "name": "clientTrigger",
-            "active": true
-        },
-        {
+            "objectName": "quoteline",
             "name": "quoteLineTrigger",
             "active": true
         },
         {
-            "name": "opportunityTrigger",
+            "objectName": "contract",
+            "name": "contractTrigger",
             "active": true
         }
     ]

@@ -7,6 +7,8 @@
     "opportunity": 3,
     "quote": 4,
     "quoteline": 5,
-    "contract": 6
+    "contract": 6,
+    "product": 7,
+    "contractitem": 8
   }
 }

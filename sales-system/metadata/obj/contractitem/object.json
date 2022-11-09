@@ -1,0 +1,42 @@
+{
+  "fields": {
+
+    "id": {
+      "type": "text",
+      "name": "ID"
+    },
+
+    "name": {
+      "type": "text",
+      "name": "Name"
+    },
+
+    "type": {
+      "type": "text",
+      "name": "Type"
+    },
+
+    "contract": {
+      "name": "Contract",
+      "type": "relation",
+      "displayField": "contract_name",
+      "related": "contract",
+      "foreignField": "name"
+    },
+
+    "productname": {
+      "name": "Product Name",
+      "type": "text"
+    },
+
+    "productprice": {
+      "name": "Product Unit Price",
+      "type": "text"
+    },
+
+    "productquantity": {
+      "name": "Product Quantity",
+      "type": "text"
+    }
+  }
+}
