@@ -1,5 +1,21 @@
 <label class="block font-bold" [for]="fieldData.field"> {{ fieldData.name }} </label>
-<input class="block border"
-       [id]="fieldData.field" type="text"
-       [value]="values[fieldData.field]"
-       (change)="handleChange($any($event.target).value)">
+<div (focusout)="handleReset()">
+  <input class="block border text-blue-600"
+         [id]="fieldData.field"
+         type="text"
+         [value]="this.displayedRelatedObjectName"
+         (keyup)="handleChange($any($event.target).value)">
+  <div class="relative">
+    <div class="absolute max-h-200px z-50 bg-white shadow-md top-0 w-full overflow-y-scroll"
+         *ngIf="searchResults && searchResults.length > 0">
+
+      <p *ngFor="let searchRecord of searchResults"
+         class="p-2 cursor-pointer hover:bg-gray-200"
+         (click)="handleSelect(searchRecord, $event)">
+        {{ searchRecord.name }}
+      </p>
+    </div>
+  </div>
+</div>
+
+

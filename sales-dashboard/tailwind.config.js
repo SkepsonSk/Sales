@@ -8,6 +8,9 @@ module.exports = {
       }),
       borderWidth: {
         '1': '1px'
+      },
+      spacing: {
+        '200px': '200px',
       }
     },
   },

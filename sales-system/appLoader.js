@@ -6,7 +6,7 @@ const exporterLoader = require('./loader/exporterLoader');
 const initializeApp = async () => {
     await databaseLoader.loadDatabase();
     await triggerService.loadTriggers();
-    //await validatorsLoader.loadValidators();
+    await validatorsLoader.loadValidators();
     await exporterLoader.loadExporters();
 
     return Promise.resolve();

@@ -1,15 +1,21 @@
 {
   "view": {
-    "fields": [
+    "Identification Information": [
       "firstName",
-      "lastName",
+      "lastName"
+    ],
+
+    "Company Information": [
       "company"
     ]
   },
   "edit": {
-    "fields": [
+    "Identification Information": [
       "firstName",
-      "lastName",
+      "lastName"
+    ],
+
+    "Company Information": [
       "company"
     ]
   }

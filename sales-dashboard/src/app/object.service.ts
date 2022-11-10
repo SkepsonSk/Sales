@@ -14,14 +14,14 @@ export class ObjectService {
     private http: HttpClient
   ) {}
 
-  listObjects(objectName: string): Observable<any> {
+  listObjects(objectName: string, query: string|null = null): Observable<any> {
     const apiUrl = environment.apiUrl;
     const header = {
       headers: new HttpHeaders()
         .set('Authorization', `Bearer ${this.authService.getToken()}`)
     }
-
-    return this.http.get(`${apiUrl}/object/${objectName}`, header);
+    const queryString = query == null ? '' : `?query=${query}`;
+    return this.http.get(`${apiUrl}/object/${objectName}${queryString}`, header);
   }
 
   search(searchPhrase: string): Observable<any> {
@@ -42,6 +42,17 @@ export class ObjectService {
     }
 
     return this.http.get(`${apiUrl}/object/${objectName}/${objectId}/default/view`, header);
+  }
+
+  retrieveObjectFields(objectName: string, objectId: string, fields: [string]): Observable<any> {
+    const apiUrl = environment.apiUrl;
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.authService.getToken()}`)
+    }
+
+    const fieldQuery = fields.join(',');
+    return this.http.get(`${apiUrl}/object/${objectName}/${objectId}?fields=${fieldQuery}`, header);
   }
 
   retrieveObjectMetadata(objectName: string): Observable<any> {
@@ -94,8 +105,12 @@ export class ObjectService {
     return this.http.delete(`${apiUrl}/object/${objectName}/${objectId}`, header);
   }
 
-  retrieveObjectNames(): Observable<any> {
+  retrieveObjectNames(objectName: string|null = null): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.get(`${apiUrl}/object`);
+    let objectNameQuery = '';
+    if (objectName) {
+      objectNameQuery = `?objectName=${objectName}`;
+    }
+    return this.http.get(`${apiUrl}/object${objectNameQuery}`);
   }
 }

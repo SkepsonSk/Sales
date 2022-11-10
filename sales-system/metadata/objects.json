@@ -3,29 +3,39 @@
   "objects": {
 
     "account": {
+      "displayName": "Account",
       "code": 0,
       "fields": [],
       "relations": {
 
         "contacts": {
-          "objectName": "Contact",
+          "objectName": "contact",
           "title": "Contacts",
           "field": "account",
           "fields": ["name", "type"]
+        },
+        "opportunities": {
+          "objectName": "opportunity",
+          "title": "Opportunities",
+          "field": "account",
+          "fields": ["name", "type", "status"]
         }
 
       }
     },
 
     "contact": {
+      "displayName": "Contact",
       "code": 1
     },
 
     "client": {
+      "displayName": "Client",
       "code": 2
     },
 
     "opportunity": {
+      "displayName": "Opportunity",
       "code": 3,
       "relations": {
 
@@ -46,6 +56,7 @@
     },
 
     "quote": {
+      "displayName": "Quote",
       "code": 4,
 
       "relations": {
@@ -69,16 +80,36 @@
     },
 
     "quoteLine": {
+      "displayName": "Quote Line",
       "code": 5
     },
 
     "contract": {
-      "code": 6
+      "displayName": "Contract",
+      "code": 6,
+      "relations": {
+        "contractitems": {
+          "objectName": "contractitem",
+          "title": "Contract Items",
+          "field": "contract",
+          "fields": ["name", "productname", "productprice", "productquantity"]
+        }
+      }
     },
 
     "user": {
+      "displayName": "User",
       "code": 7
-    }
+    },
 
+    "product": {
+      "displayName": "Product",
+      "code": 8
+    },
+
+    "contractitem": {
+      "displayName": "Contract Item",
+      "code": 9
+    }
   }
 }

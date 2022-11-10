@@ -1,0 +1,27 @@
+<div class="w-1/2 bg-white ml-auto mr-auto mt-10 p-2 rounded">
+
+  <h3 class="text-xl"> Choose Quote to create a Contract from </h3>
+  <p class="mt-2"> Click to select </p>
+
+  <div class="flex flex-col mt-5 mb-5">
+    <p *ngFor="let quote of quoteList"
+       [ngClass]="{'bg-gray-400': quote.id === selectedQuoteId ,'text-white': quote.id === selectedQuoteId, 'bg-gray-200': quote.id !== selectedQuoteId}"
+       class="p-2 cursor-pointer mt-2"
+       (click)="selectedQuoteId = quote.id">
+      {{quote.name}}
+    </p>
+  </div>
+
+  <div class="flex justify-end">
+    <p class="cursor-pointer ml-3 border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors mt-2"
+       (click)="handleCancel()">
+      Cancel
+    </p>
+    <p class="cursor-pointer ml-3 border-1 pl-2 pr-2 pt-1 pb-1 rounded shadow text-gray-500 hover:bg-gray-500 hover:text-white transition-colors mt-2"
+       (click)="handleCreateContract()">
+      Create Contract
+    </p>
+  </div>
+
+
+</div>

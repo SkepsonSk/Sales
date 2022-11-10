@@ -1,17 +1,22 @@
 {
   "view": {
-    "fields": [
-      "price",
-      "quantity",
+    "Quoting Information": [
       "quote"
-    ]
-  },
-  "edit": {
-    "fields": [
+    ],
+    "Product Information": [
       "name",
       "price",
       "quantity",
+      "product"
+    ]
+  },
+  "edit": {
+    "Quoting Information": [
       "quote"
+    ],
+    "Product Information": [
+      "quantity",
+      "product"
     ]
   }
 }

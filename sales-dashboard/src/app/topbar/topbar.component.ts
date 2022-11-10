@@ -11,10 +11,12 @@ import {Router} from "@angular/router";
 })
 export class TopbarComponent implements OnInit {
 
-  objectNames: any;
+  objectList: any;
   selectedPage: number = 0;
 
   searchPhrase: string = '';
+
+  objectMenuVisible = false;
 
   constructor(
     private objectService: ObjectService,
@@ -29,7 +31,7 @@ export class TopbarComponent implements OnInit {
 
   loadObjectNames() : void {
     this.objectService.retrieveObjectNames().subscribe( objectNames => {
-      this.objectNames = objectNames;
+      this.objectList = objectNames;
     } );
   }
 
@@ -65,5 +67,4 @@ export class TopbarComponent implements OnInit {
   navigateObject(objectName: string) {
     this.navigationService.navigateObject(objectName);
   }
-
 }

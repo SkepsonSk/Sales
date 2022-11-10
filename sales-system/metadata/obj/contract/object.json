@@ -24,6 +24,14 @@
       "foreignField": "name"
     },
 
+    "quote": {
+      "name": "Quote",
+      "type": "relation",
+      "displayField": "quote_name",
+      "related": "quote",
+      "foreignField": "name"
+    },
+
     "status": {
       "name": "Status",
       "type": "text"

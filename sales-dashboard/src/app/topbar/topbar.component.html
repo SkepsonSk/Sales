@@ -13,28 +13,31 @@
                alt="Submit Form"
                style="width: 30px; height: 30px" />
       </div>
-
     </form>
 
     <p> {{ getUsername() }} </p>
   </div>
 
   <div class="flex mt-2 pb-2 items-center">
-    <img style="width: 30px; height: 30px;"
-         class="mr-5 cursor-pointer"
-         src="/assets/icon/apps.svg" alt="APPS"/>
+    <div class="relative">
+      <img style="width: 30px; height: 30px;"
+           (click)="objectMenuVisible = true"
+           class="mr-5 cursor-pointer"
+           src="/assets/icon/apps.svg" alt="APPS"/>
+      <app-object-menu *ngIf="objectMenuVisible"
+                       (close)="objectMenuVisible = false">
+      </app-object-menu>
+    </div>
 
     <a class="cursor-pointer"
-       [ngClass]="{ 'font-bold': getCurrentPage() == 'home' }"
        (click)="navigateHome()">
-      HOME
+      Home
     </a>
 
     <a class="cursor-pointer ml-5"
-       *ngFor="let objectName of objectNames; let i = index"
-       [ngClass]="{ 'font-bold': getCurrentPage() == objectName }"
-       (click)="navigateObject(objectName)">
-      {{ objectName.toUpperCase() }}
+       *ngFor="let object of objectList; let i = index"
+       (click)="navigateObject(object.objectName)">
+      {{ object.objectDisplayName }}
     </a>
   </div>
 

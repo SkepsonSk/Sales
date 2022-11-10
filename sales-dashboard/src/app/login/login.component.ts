@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  tryLogin(): void {
+  tryLogin(): boolean {
     this.route.queryParams
       .subscribe( params => {
 
@@ -42,9 +42,7 @@ export class LoginComponent implements OnInit {
           } );
 
     });
-
-
-
+    return false;
   }
 
 }

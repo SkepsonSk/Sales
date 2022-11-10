@@ -1,0 +1,10 @@
+{
+  "actions": {
+
+    "Accept Client": {
+      "type": "component",
+      "component": "special"
+    }
+
+  }
+}

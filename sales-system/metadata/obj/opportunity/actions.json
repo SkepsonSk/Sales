@@ -1,0 +1,8 @@
+{
+  "actions": {
+    "Create Contract": {
+      "type": "component",
+      "component": "createContract"
+    }
+  }
+}

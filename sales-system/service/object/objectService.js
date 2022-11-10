@@ -1,6 +1,8 @@
 const EventEmitter = require('events');
 const triggerEmitter = new EventEmitter();
 
+const triggerService = require('./../../trigger/triggerCore/triggerService');
+
 const database = require('./../../database/database');
 const idGenerationService = require('./idGenerationService');
 
@@ -18,8 +20,11 @@ const retrieveActions = async (objectName) => {
     return await metadata.read(`obj/${objectName}/actions.json`);
 }
 
-const list = (objectName) => {
+const list = (objectName, query = null) => {
     let sql = `SELECT * FROM ${objectName}`;
+    if (query != null) {
+        sql += ` WHERE ${query}`;
+    }
 
     return new Promise( async (resolve, reject) => {
         try {
@@ -36,7 +41,7 @@ const retrieve = async (objectName, id, fields = null) => {
 
     const objectQueryBuilder = new ObjectQueryBuilder(objectName, id);
     Object.keys(object.fields).forEach( fieldName => {
-        if (fields == null || fields.includes(fieldName)) {
+        if (fields == null || fields.includes(fieldName) || fieldName === 'id') {
             const field = object.fields[fieldName];
             objectQueryBuilder[field.type](fieldName, field);
         }
@@ -79,11 +84,9 @@ const layout = async (objectName, id, layoutName = 'default', type = 'view') => 
     return retrieve(objectName, id, fields);
 }
 
-//TODO fix to transaction
-//TODO add id
 const create = async(objectName, data) => {
     objectName = objectName.toLowerCase();
-    triggerEmitter.emit(`${objectName}BeforeInsert`, {new: data});
+    await triggerService.callBeforeInsert(objectName, data);
 
     return new Promise( async (resolve, reject) => {
 
@@ -91,16 +94,18 @@ const create = async(objectName, data) => {
             await idGenerationService.generateID(objectName) :
             data.id;
 
+        data.id = id;
         const keys = Object.keys(data);
         const values = Object.values(data).map( v => `'${v}'` ).join(',');
         const fields = keys.join(',');
 
         let sql = `INSERT INTO ${objectName} (${fields}) VALUES (${values})`;
+        console.log('INSERT: ' + sql);
 
         try {
             let res = await database.transaction([{sql: sql}]);
             res[0][0].id = id;
-            triggerEmitter.emit(`${objectName}AfterInsert`, {new: data});
+            await triggerService.callAfterInsert(objectName, data);
             resolve(res[0][0]);
         } catch (e) {
             return reject(e);
@@ -119,15 +124,25 @@ const create = async(objectName, data) => {
     } );
 }
 
-//TODO fix to transaction
 const update = async (objectName, id, data) => {
     const oldObject = await retrieve(objectName, id);
     objectName = objectName.toLowerCase();
 
-    triggerEmitter.emit(`${objectName}BeforeUpdate`, { old: oldObject, new: data});
+    await triggerService.callBeforeUpdate(objectName, data, oldObject);
 
-    let sql = `UPDATE ${objectName} SET ? WHERE id='${id}'`;
-    return new Promise( (resolve, reject) => {
+    const updateSQL = Object.keys(data).map( field => `${field}='${data[field]}'` );
+    let sql = `UPDATE ${objectName} SET ${updateSQL} WHERE id='${id}'`;
+    console.log(sql);
+
+    try {
+        let res = await database.transaction([{sql: sql}]);
+        await triggerService.callAfterUpdate(objectName, data, oldObject);
+        return Promise.resolve(res[0][0]);
+    } catch (e) {
+        return Promise.reject(e);
+    }
+
+    /*return new Promise( async (resolve, reject) => {
 
         database.runSQLWithParams(sql, data)
             .then( res => {
@@ -137,20 +152,25 @@ const update = async (objectName, id, data) => {
             .catch( err => {
                 reject(err);
             });
-    } );
-
+    } );*/
 }
 
-//TODO fix to transaction
 const remove = async (objectName, id) => {
     const oldObject = await retrieve(objectName, id);
 
     objectName = objectName.toLowerCase();
-    triggerEmitter.emit(`${objectName}BeforeRemove`, { old: oldObject});
+    await triggerService.callBeforeRemove(objectName, oldObject);
 
     const sql = `DELETE FROM ${objectName} WHERE id='${id}'`
+    try {
+        let res = await database.transaction([{sql: sql}]);
+        await triggerService.callAfterRemove(objectName, oldObject);
+        return Promise.resolve(res[0][0]);
+    } catch (e) {
+        return Promise.reject(e);
+    }
 
-    return new Promise( (resolve, reject) => {
+    /*return new Promise( (resolve, reject) => {
 
         database.runSQL(sql)
             .then( res => {
@@ -161,15 +181,28 @@ const remove = async (objectName, id) => {
                 reject(error);
             });
 
-    } );
+    } );*/
 }
 
-const retrieveObjectNames = () => {
+const retrieveObjectNames = (objectName = null) => {
     return new Promise( (resolve, reject) => {
         metadata.read('objects.json')
-            .then( objects =>
-                resolve(Object.keys(objects.objects))
-             )
+            .then( objects => {
+                let objectList = [];
+                let keys = Object.keys(objects.objects);
+                if (objectName != null) {
+                    keys = keys.filter( key => key.toLowerCase().includes(objectName.toLowerCase()));
+                }
+
+                keys.forEach( objectName => {
+                    objectList.push({
+                        objectName: objectName,
+                        objectDisplayName: objects.objects[objectName].displayName
+                    });
+                } );
+
+                resolve(objectList);
+            })
             .catch( err => reject({ok: false, err: err}));
     } );
 }

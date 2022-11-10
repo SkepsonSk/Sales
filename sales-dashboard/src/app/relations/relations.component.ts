@@ -11,6 +11,7 @@ export class RelationsComponent implements OnInit {
 
   @Input() objectName: string = '';
   @Input() relationName: string = '';
+  @Input() relationObject: string = '';
   @Input() objectId: string = '';
   @Input() state: string = '';
 
@@ -42,7 +43,7 @@ export class RelationsComponent implements OnInit {
   }
 
   loadData() {
-    this.objectService.retrieveObjectMetadata(this.objectName)
+    this.objectService.retrieveObjectMetadata(this.relationObject)
       .subscribe( metadata => {
         this.objectMetadata = metadata;
         this.relationService.retrieveObjects(

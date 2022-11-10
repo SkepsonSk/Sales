@@ -7,7 +7,7 @@ const retrieveRelations = (objectName) => {
             .then( objects => {
 
                 if (objects.objects[objectName].relations != null) {
-                    resolve(Object.keys(objects.objects[objectName].relations));
+                    resolve(objects.objects[objectName].relations);
                 }
                 else {
                     resolve([]);

@@ -6,6 +6,10 @@
       "displayName": "Draft"
     },
     {
+      "name": "negotiation",
+      "displayName": "Negotiation"
+    },
+    {
       "name": "active",
       "displayName": "Active"
     }

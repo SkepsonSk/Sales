@@ -1,14 +1,20 @@
 {
   "view": {
-    "fields": [
+    "Identification Information": [
       "name",
-      "opportunity",
+      "opportunity"
+    ],
+    "Accounting": [
       "quotePrice"
     ]
   },
   "edit": {
-    "fields": [
-      "name"
+    "Identification Information": [
+      "name",
+      "opportunity"
+    ],
+    "Accounting": [
+      "quotePrice"
     ]
   }
 }

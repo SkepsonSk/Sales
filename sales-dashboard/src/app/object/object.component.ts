@@ -31,6 +31,7 @@ export class ObjectComponent implements OnInit {
   state: string = '';
 
   relations: any;
+  relationNames: any;
 
   @ViewChild(ObjectDirective, {static: true})
   objectManagement!: ObjectDirective
@@ -94,6 +95,8 @@ export class ObjectComponent implements OnInit {
   retrieveRelations(objectName: string): void {
     this.state = this.randomString(24, 'abcdefghijklmnoprstq1234567890');
     this.relationService.retrieveRelations(objectName).subscribe( relations => {
+
+      this.relationNames = Object.keys(relations);
       this.relations = relations;
     } );
   }
@@ -113,8 +116,8 @@ export class ObjectComponent implements OnInit {
         instance.mode = 'create';
         instance.objectName = objectName;
 
-        instance.layoutLoadedCallback = (fields: any, values: any) => {
-          values[relatedField] = this.objectId;
+        instance.layoutLoadedCallback = (dataObject: any) => {
+          dataObject[relatedField] = this.objectId;
         }
 
         instance.afterResponse = () => {

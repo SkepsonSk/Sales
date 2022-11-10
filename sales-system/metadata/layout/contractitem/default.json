@@ -1,0 +1,34 @@
+{
+  "view": {
+    "Identification Information": [
+      "name",
+      "type"
+    ],
+
+    "Related Information": [
+      "contract"
+    ],
+
+    "Product Information": [
+      "productname",
+      "productprice",
+      "productquantity"
+    ]
+  },
+  "edit": {
+    "Identification Information": [
+      "name",
+      "type"
+    ],
+
+    "Related Information": [
+      "contract"
+    ],
+
+    "Product Information": [
+      "productname",
+      "productprice",
+      "productquantity"
+    ]
+  }
+}
