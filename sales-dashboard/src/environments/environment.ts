@@ -6,7 +6,12 @@ export const environment = {
   production: false,
 
   apiUrl: 'http://localhost:19061',
-  authUrl: 'http://localhost:19060'
+  authUrl: 'http://localhost:19060',
+
+  pusher: {
+    key: '2b7efe02c3bed1fc93ea',
+    cluster: 'eu'
+  }
 };
 
 /*

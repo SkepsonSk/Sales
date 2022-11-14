@@ -36,6 +36,7 @@ import { SpinnerComponent } from './components/general/spinner/spinner.component
 import { CreateContractComponent } from './components/opportunity/create-contract/create-contract.component';
 import { ObjectMenuComponent } from './object-menu/object-menu.component';
 import { AutoFocusInputDirective } from './directives/auto-focus-input.directive';
+import { ChatComponent } from './core/component/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { AutoFocusInputDirective } from './directives/auto-focus-input.directive
     SpinnerComponent,
     CreateContractComponent,
     ObjectMenuComponent,
-    AutoFocusInputDirective
+    AutoFocusInputDirective,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
