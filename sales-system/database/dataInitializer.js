@@ -9,7 +9,7 @@ const initialize = async () => {
         try {
             await database.runSchema(`tables/${objectName}.sql`);
         } catch (err) {
-            console.warn(`[DATABASE SYSTEM] Schema for ${objectName} failed to load (probably missing file). Skipping.`)
+            console.warn(`[DATABASE SYSTEM] Schema for ${objectName} failed to load (database may be down) - skipping.`)
         }
     }
 
