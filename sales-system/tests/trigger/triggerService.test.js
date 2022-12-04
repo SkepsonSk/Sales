@@ -9,7 +9,7 @@ describe('Trigger Service tests', () => {
         expect(canRun).toBe(true);
     });
 
-})
+});
 
 
 
