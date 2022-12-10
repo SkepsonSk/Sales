@@ -14,7 +14,7 @@ const clientRoute = require('./routes/client/client');
 const appLoader = require('./appLoader');
 const app = express();
 
-appLoader.initializeApp()
+appLoader.initializeApp(app)
     .then( () => {
         console.info('[SALES SYSTEM] App loaded.');
         app.listen(process.env.PORT || 19061, () => {

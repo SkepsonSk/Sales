@@ -25,4 +25,18 @@ router.post('/authenticate', (req, res) => {
         });
 });
 
+router.get('/userinfo', async (req, res) => {
+    const token = req.header('Authorization');
+
+    try {
+        const info = await authenticationService.userInfo(token);
+        res.json(info);
+    } catch (e) {
+        res.status(401).json({
+            message: e.message
+        });
+    }
+
+})
+
 module.exports = router;
