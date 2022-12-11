@@ -1,6 +1,6 @@
 const PreHandler = require('./preHandler');
 
-const authorizationService = require('./../../../service/object/authorizationService');
+const authorizationService = require('@service/object/authorizationService');
 
 module.exports = class AuthorizationPreHandler extends PreHandler {
 

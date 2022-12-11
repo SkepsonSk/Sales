@@ -1,5 +1,5 @@
-const metadata = require("../metadata/metadata");
-const eventBus = require('../event/eventBus');
+const metadata = require('@metadata/metadata');
+const eventBus = require('@event/eventBus');
 
 const loadEvents = async () => {
     const eventsMetadata = await metadata.read('events.json');

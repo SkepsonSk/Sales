@@ -1,5 +1,5 @@
-const database = require('./../database/database')
-const dataInitializer = require('./../database/dataInitializer');
+const database = require('@database/database')
+const dataInitializer = require('@database/dataInitializer');
 
 const loadDatabase = async () => {
     console.info('[DATABASE SYSTEM] Loading database...');

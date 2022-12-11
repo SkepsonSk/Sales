@@ -1,5 +1,5 @@
-const database = require('./database');
-const metadata = require('./../metadata/metadata');
+const database = require('@database/database');
+const metadata = require('@metadata/metadata');
 
 const initialize = async () => {
     const objectMetadata = await metadata.read('objects.json');
