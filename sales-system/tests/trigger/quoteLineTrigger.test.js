@@ -1,7 +1,8 @@
 const { GenericContainer } = require('testcontainers');
-const database = require('../../database/database');
-const triggerLoader = require('../../loader/triggerLoader');
-const objectService = require('../../service/object/objectService');
+
+const database = require('@database/database');
+const triggerLoader = require('@loader/triggerLoader');
+const objectService = require('@service/object/objectService');
 
 jest.setTimeout(20000);
 describe('Quote Line Trigger Service', () => {
