@@ -1,0 +1,10 @@
+{
+  "appLoadFinish": {
+    "eventListeners": {
+
+     "appLoadFinishEvent": {
+       "enabled": true
+     }
+    }
+  }
+}

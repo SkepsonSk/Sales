@@ -5,6 +5,7 @@ const authUtils = require('./authUtils');
 
 let url = null;
 let authenticationUrl = null;
+let userInfoUrl = null;
 
 let clientId = null;
 let clientSecret = null;
@@ -28,6 +29,7 @@ const autoConfigure = () => {
 
         url = `${keycloak['auth-server-url']}realms/${realm}`;
         authenticationUrl = `${url}/protocol/openid-connect/token`;
+        userInfoUrl = `${url}/protocol/openid-connect/userinfo`;
     });
 }
 
@@ -76,5 +78,21 @@ const authenticate = (username, password) => {
     } );
 }
 
+const userInfo = async (authorizationHeader) => {
+    const config = {
+        headers: {
+            'Authorization': authorizationHeader,
+        }
+    }
+
+    try {
+        const info = await axios.get(userInfoUrl, config);
+        return Promise.resolve(info.data);
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
 exports.autoConfigure = autoConfigure;
 exports.authenticate = authenticate;
+exports.userInfo = userInfo;

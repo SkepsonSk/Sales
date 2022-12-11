@@ -1,6 +1,6 @@
-const metadata = require('../metadata/metadata');
-const Trigger = require('../trigger/triggerCore/trigger');
-const triggerService = require('../trigger/triggerCore/triggerService');
+const metadata = require('@metadata/metadata');
+const Trigger = require('@trigger/triggerCore/trigger');
+const triggerService = require('@trigger/triggerCore/triggerService');
 
 const loadTriggers = async () => {
     console.info('[TRIGGER SYSTEM] Loading triggers...');

@@ -1,0 +1,17 @@
+[
+  {
+    "handler": "helloRoute",
+    "uri": "/hello",
+    "routes": [
+      {
+        "method": "get",
+        "name": "helloTest",
+        "access": {
+          "permitted": [
+            "Object#view"
+          ]
+        }
+      }
+    ]
+  }
+]

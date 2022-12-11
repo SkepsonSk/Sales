@@ -1,20 +1,22 @@
+require('module-alias/register');
+
 const express = require('express');
 const cors = require('cors');
 
-const userRouter = require('./routes/user');
-const objectRoute = require('./routes/object');
-const searchRoute = require('./routes/search');
-const layoutRoute = require('./routes/layout');
-const relationRoute = require('./routes/relation');
-const pathRoute = require('./routes/path');
-const objectDefinerRoute = require('./routes/objectDefiner');
-const exportingRouter = require('./routes/exporting');
-const clientRoute = require('./routes/client/client');
+const userRouter = require('@route/user');
+const objectRoute = require('@route/object');
+const searchRoute = require('@route/search');
+const layoutRoute = require('@route/layout');
+const relationRoute = require('@route/relation');
+const pathRoute = require('@route/path');
+const objectDefinerRoute = require('@route/objectDefiner');
+const exportingRouter = require('@route/exporting');
+const clientRoute = require('@route/client/client');
 
-const appLoader = require('./appLoader');
+const appLoader = require('@appLoader');
 const app = express();
 
-appLoader.initializeApp()
+appLoader.initializeApp(app)
     .then( () => {
         console.info('[SALES SYSTEM] App loaded.');
         app.listen(process.env.PORT || 19061, () => {

@@ -1,3 +1,4 @@
 # Project exclude paths
 /keycloak-auth/node_modules/
 /sales-system/node_modules/
+/sales-system/coverage
