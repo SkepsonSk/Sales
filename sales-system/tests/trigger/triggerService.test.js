@@ -1,5 +1,5 @@
-const triggerService = require('../../trigger/triggerCore/triggerService');
-const ContractTrigger = require('../../trigger/contractTrigger');
+const triggerService = require('@trigger/triggerCore/triggerService');
+const ContractTrigger = require('@trigger/contractTrigger');
 
 describe('Trigger Service tests', () => {
 
@@ -9,7 +9,7 @@ describe('Trigger Service tests', () => {
         expect(canRun).toBe(true);
     });
 
-})
+});
 
 
 
