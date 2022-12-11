@@ -34,7 +34,7 @@
     "@route": "./routes",
     "@trigger": "./trigger",
     "@service": "./service",
-    "@appLoader": "./apploader",
+    "@appLoader": "./appLoader",
     "@loader": "./loader"
   }
 }
