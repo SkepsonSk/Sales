@@ -1,5 +1,5 @@
-const eventBus = require('./../../event/eventBus');
-const EventListener = require('./../../event/eventListener');
+const eventBus = require('@event/eventBus');
+const EventListener = require('@event/eventListener');
 
 describe('EventBus tests', () => {
 

@@ -17,11 +17,24 @@
     "express": "^4.17.1",
     "fast-xml-parser": "^4.0.7",
     "jest": "^27.3.1",
+    "module-alias": "^2.2.2",
+    "module-alias-jest": "0.0.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@trendyol/jest-testcontainers": "^2.1.1"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@event": "./event",
+    "@metadata": "./metadata",
+    "@database": "./database",
+    "@route": "./routes",
+    "@trigger": "./trigger",
+    "@service": "./service",
+    "@appLoader": "./apploader",
+    "@loader": "./loader"
   }
 }

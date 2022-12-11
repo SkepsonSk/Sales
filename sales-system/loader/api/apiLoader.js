@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const metadata = require('../../metadata/metadata');
-const authorizationService = require('../../service/object/authorizationService');
+const metadata = require('@metadata/metadata');
 
-const AuthorizationPreHandler = require('./preHandler/authorizationPreHandler');
-const PermittedPreHandler = require('./preHandler/permittedPreHandler');
+const AuthorizationPreHandler = require('@loader/api/preHandler/authorizationPreHandler');
+const PermittedPreHandler = require('@loader/api/preHandler/permittedPreHandler');
 
 let PRE_HANDLERS = [];
 

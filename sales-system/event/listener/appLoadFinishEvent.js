@@ -1,4 +1,4 @@
-const EventListener = require('./../eventListener');
+const EventListener = require('@event/eventListener');
 module.exports = class AppLoadFinishEvent extends EventListener {
 
     async handle(app) {

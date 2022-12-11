@@ -1,5 +1,5 @@
-const ObjectValidator = require('./../service/object/objectValidator');
-const RegexValidator = require('./../service/object/validators/regexValidator');
+const ObjectValidator = require('@service/object/objectValidator');
+const RegexValidator = require('@service/object/validators/regexValidator');
 
 const loadValidators = async () => {
     console.info('[TRIGGER SYSTEM] Loading validators...');

@@ -1,10 +1,10 @@
-const eventBus = require('./event/eventBus');
-const eventLoader = require('./loader/eventLoader');
-const triggerService = require('./loader/triggerLoader');
-const databaseLoader = require('./loader/databaseLoader');
-const validatorsLoader = require('./loader/validatorsLoader');
-const exporterLoader = require('./loader/exporterLoader');
-const apiLoader = require('./loader/api/apiLoader');
+const eventBus = require('@event/eventBus');
+const eventLoader = require('@loader/eventLoader');
+const triggerService = require('@loader/triggerLoader');
+const databaseLoader = require('@loader/databaseLoader');
+const validatorsLoader = require('@loader/validatorsLoader');
+const exporterLoader = require('@loader/exporterLoader');
+const apiLoader = require('@loader/api/apiLoader');
 
 const initializeApp = async (app) => {
     await eventLoader.loadEvents();
