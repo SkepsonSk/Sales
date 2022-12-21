@@ -21,9 +21,17 @@ const write = (metadataObject, path) => {
     });
 }
 
-const read = (path) => {
+const read = (path, packageName = null) => {
+    let absolutePath;
+    if (packageName == null) {
+        absolutePath = `${__dirname}/${path}`;
+    }
+    else {
+        absolutePath = `${__dirname}/../package/${packageName}/metadata/${path}`;
+    }
+
     return new Promise( (resolve, reject) => {
-        fs.readFile(`${__dirname}/${path}`, 'utf8',(err, data) => {
+        fs.readFile(absolutePath, 'utf8',(err, data) => {
             if (err) {
                 reject(err);
             }

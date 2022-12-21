@@ -39,7 +39,6 @@ const runSchema = (sqlFile) => {
 
             runSQL(data)
                 .then( res => {
-                    console.log(`[DATABASE SYSTEM] Loaded schema ${sqlFile}`);
                     resolve(res);
                 }  )
                 .catch( err => reject(err) );

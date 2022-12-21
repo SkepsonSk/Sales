@@ -1,8 +1,8 @@
-const metadata = require('./../../metadata/metadata');
+const objectResolver = require('@package/objectResolver');
 
 const retrieve = async (objectName, layoutName, layoutType) => {
-    const layout = await metadata.read(`layout/${objectName}/${layoutName}.json`);
-    const object = await metadata.read(`obj/${objectName}/object.json`);
+    const layout = await objectResolver.resolveLayoutMetadata(objectName, layoutName);
+    const object = await objectResolver.resolveObjectMetadata(objectName);
 
     let objectLayout = {};
 

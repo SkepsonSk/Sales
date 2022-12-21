@@ -1,29 +1,21 @@
-const metadata = require("./../../metadata/metadata");
 const database = require('./../../database/database');
+const packageService = require('@service/package/packageService');
 
-const retrieveRelations = (objectName) => {
-    return new Promise( (resolve, reject) => {
-        metadata.read('objects.json')
-            .then( objects => {
-
-                if (objects.objects[objectName].relations != null) {
-                    resolve(objects.objects[objectName].relations);
-                }
-                else {
-                    resolve([]);
-                }
-
-
-            })
-            .catch( err => reject(err));
-    } );
+const retrieveRelations = async (objectName) => {
+    const objectMetadata = await packageService.getObjectsMetadata();
+    if (objectMetadata.objects[objectName].relations != null) {
+        return Promise.resolve(objectMetadata.objects[objectName].relations);
+    }
+    else {
+        return Promise.resolve([]);
+    }
 }
 
 //TODO change to listRelationObjects
 const retrieveRelationObjects = (objectName, relationName, objectId) => {
     return new Promise( (resolve, reject) => {
 
-        metadata.read('objects.json')
+        packageService.getObjectsMetadata('objects.json')
             .then( objects => {
 
                 if (objects.objects[objectName].relations != null) {

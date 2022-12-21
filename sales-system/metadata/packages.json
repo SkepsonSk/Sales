@@ -1,0 +1,6 @@
+{
+  "testPackage": {
+    "entry": "testPackage",
+    "enabled": true
+  }
+}

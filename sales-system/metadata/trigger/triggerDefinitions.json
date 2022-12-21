@@ -1,14 +1,4 @@
 {
     "triggers": [
-        {
-            "objectName": "quoteline",
-            "name": "quoteLineTrigger",
-            "active": true
-        },
-        {
-            "objectName": "contract",
-            "name": "contractTrigger",
-            "active": true
-        }
     ]
 }

@@ -10,14 +10,17 @@ const ObjectQueryBuilder = require('./objectQueryBuilder');
 const ObjectSearchBuilder = require('./objectSearchBuilder');
 const ObjectValidator = require('./objectValidator');
 
+const objectResolver = require('@package/objectResolver');
+const packageService = require('@service/package/packageService');
+
 const metadata = require('./../../metadata/metadata');
 
 const retrieveMetadata = async (objectName) => {
-    return await metadata.read(`obj/${objectName}/object.json`);
+    return await objectResolver.resolveObjectMetadata(objectName);
 }
 
 const retrieveActions = async (objectName) => {
-    return await metadata.read(`obj/${objectName}/actions.json`);
+    return await objectResolver.resolveActionsMetadata(objectName);
 }
 
 const list = (objectName, query = null) => {
@@ -37,7 +40,7 @@ const list = (objectName, query = null) => {
 }
 
 const retrieve = async (objectName, id, fields = null) => {
-    const object = await metadata.read(`obj/${objectName}/object.json`);
+    const object = await objectResolver.resolveObjectMetadata(objectName);
 
     const objectQueryBuilder = new ObjectQueryBuilder(objectName, id);
     Object.keys(object.fields).forEach( fieldName => {
@@ -65,7 +68,7 @@ const search = async (search) => {
 }
 
 const layout = async (objectName, id, layoutName = 'default', type = 'view') => {
-    const layoutMetadata = await metadata.read(`layout/${objectName}/${layoutName}.json`);
+    const layoutMetadata = await objectResolver.resolveLayoutMetadata(objectName, layoutName);
 
     const fields = [];
     const layout = layoutMetadata[type];
@@ -100,7 +103,6 @@ const create = async(objectName, data) => {
         const fields = keys.join(',');
 
         let sql = `INSERT INTO ${objectName} (${fields}) VALUES (${values})`;
-        console.log('INSERT: ' + sql);
 
         try {
             let res = await database.transaction([{sql: sql}]);
@@ -132,7 +134,6 @@ const update = async (objectName, id, data) => {
 
     const updateSQL = Object.keys(data).map( field => `${field}='${data[field]}'` );
     let sql = `UPDATE ${objectName} SET ${updateSQL} WHERE id='${id}'`;
-    console.log(sql);
 
     try {
         let res = await database.transaction([{sql: sql}]);
@@ -184,27 +185,27 @@ const remove = async (objectName, id) => {
     } );*/
 }
 
-const retrieveObjectNames = (objectName = null) => {
-    return new Promise( (resolve, reject) => {
-        metadata.read('objects.json')
-            .then( objects => {
-                let objectList = [];
-                let keys = Object.keys(objects.objects);
-                if (objectName != null) {
-                    keys = keys.filter( key => key.toLowerCase().includes(objectName.toLowerCase()));
-                }
+const retrieveObjectNames = async (objectName = null) => {
+    const packageNameList = await packageService.getPackages();
+    let objectNameList = [];
 
-                keys.forEach( objectName => {
-                    objectList.push({
-                        objectName: objectName,
-                        objectDisplayName: objects.objects[objectName].displayName
-                    });
-                } );
+    for (const packageName of packageNameList) {
+        const objectMetadata = await metadata.read('objects.json', packageName);
+        const objectNames = Object.keys(objectMetadata.objects);
 
-                resolve(objectList);
-            })
-            .catch( err => reject({ok: false, err: err}));
-    } );
+        objectNames.forEach( objectName => {
+            objectNameList.push({
+                objectName: objectName,
+                objectDisplayName: objectMetadata.objects[objectName].displayName
+            });
+        } );
+    }
+
+    if (objectName != null) {
+        objectNameList = objectNameList.filter( object => object.objectName.toLowerCase().includes(objectName.toLowerCase()));
+    }
+
+    return Promise.resolve(objectNameList);
 }
 
 exports.retrieveMetadata = retrieveMetadata;

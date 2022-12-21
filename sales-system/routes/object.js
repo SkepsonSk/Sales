@@ -38,7 +38,6 @@ router.get('/:objectName/actions', (req, res) => {
         });
 })
 
-
 router.get('/:objectName', (req, res) => {
     const objectName = req.params.objectName;
     const authorizationHeader = req.header('Authorization') != null ? req.header('Authorization') : '';

@@ -1,0 +1,114 @@
+{
+  "objects": {
+
+    "account": {
+      "displayName": "Account",
+      "code": 0,
+      "fields": [],
+      "relations": {
+
+        "contacts": {
+          "objectName": "contact",
+          "title": "Contacts",
+          "field": "account",
+          "fields": ["name", "type"]
+        },
+        "opportunities": {
+          "objectName": "opportunity",
+          "title": "Opportunities",
+          "field": "account",
+          "fields": ["name", "type", "status"]
+        }
+
+      }
+    },
+
+    "contact": {
+      "displayName": "Contact",
+      "code": 1
+    },
+
+    "client": {
+      "displayName": "Client",
+      "code": 2
+    },
+
+    "opportunity": {
+      "displayName": "Opportunity",
+      "code": 3,
+      "relations": {
+
+        "quotes": {
+          "objectName": "quote",
+          "title": "Quotes",
+          "field": "opportunity",
+          "fields": ["name", "type"]
+        },
+        "contracts": {
+          "objectName": "contract",
+          "title": "Contracts",
+          "field": "opportunity",
+          "fields": ["name", "status"]
+        }
+
+      }
+    },
+
+    "quote": {
+      "displayName": "Quote",
+      "code": 4,
+
+      "relations": {
+
+        "quoteLines": {
+          "objectName": "QuoteLine",
+          "title": "Quote Lines",
+          "field": "quote",
+          "fields": ["name", "price", "quantity"]
+        }
+
+      },
+
+      "fields": {
+        "opportunity": {
+          "type": "relation",
+          "objectName": "opportunity",
+          "fields": ["name"]
+        }
+      }
+    },
+
+    "quoteLine": {
+      "displayName": "Quote Line",
+      "code": 5
+    },
+
+    "contract": {
+      "displayName": "Contract",
+      "code": 6,
+      "relations": {
+        "contractitems": {
+          "objectName": "contractitem",
+          "title": "Contract Items",
+          "field": "contract",
+          "fields": ["name", "productname", "productprice", "productquantity"]
+        }
+      }
+    },
+
+    "user": {
+      "displayName": "User",
+      "code": 7
+    },
+
+    "product": {
+      "displayName": "Product",
+      "code": 8
+    },
+
+    "contractitem": {
+      "displayName": "Contract Item",
+      "code": 9
+    }
+  }
+}

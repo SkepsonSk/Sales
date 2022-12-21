@@ -5,7 +5,7 @@ const triggerService = require('@loader/triggerLoader');
 const databaseLoader = require('@loader/databaseLoader');
 const validatorsLoader = require('@loader/validatorsLoader');
 const exporterLoader = require('@loader/exporterLoader');
-const apiLoader = require('@loader/api/apiLoader');
+const packageLoader = require('@loader/package/packageLoader');
 
 const initializeApp = async (app) => {
     await loggingLoader.loadLogging();
@@ -14,7 +14,7 @@ const initializeApp = async (app) => {
     await triggerService.loadTriggers();
     await validatorsLoader.loadValidators();
     await exporterLoader.loadExporters();
-    await apiLoader.loadAPI(app);
+    await packageLoader.loadPackages(app);
 
     await eventBus.callEvent('appLoadFinish', app);
     return Promise.resolve();

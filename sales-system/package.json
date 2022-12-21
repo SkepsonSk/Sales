@@ -35,6 +35,7 @@
     "@trigger": "./trigger",
     "@service": "./service",
     "@appLoader": "./appLoader",
-    "@loader": "./loader"
+    "@loader": "./loader",
+    "@package": "./package"
   }
 }
